@@ -4,12 +4,17 @@
 public class InterruptProcessor
 {
 
-    public void scheduleIO()
+    public void signalInterrupt()
+    {
+//        interrupt = true;
+    }
+
+    public void addEvent()
     {
 
     }
 
-    public void startIO()
+    public void getEvent()
     {
 
     }

@@ -1,8 +1,11 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
 /**
  * Created by Michael on 11/25/2016.
  */
 public class ExecutionQueue {
-
 
     PCBNode current;
     PCBNode first;
@@ -118,7 +121,7 @@ public class ExecutionQueue {
 
 //    	BufferedReader br = null;
 //        try {
-//            br = new BufferedReader(new FileReader("test.txt"));
+//            br = new BufferedReader(new FileReader("./src/WordProcessorProc.txt"));
 //            String line;
 //            while ((line = br.readLine()) != null) {
 //                System.out.println(line);
@@ -135,15 +138,15 @@ public class ExecutionQueue {
 //            }
 //        }
 
-        ExecutionQueue exec = new ExecutionQueue();
-        PCB pcb = new PCB();
-        PCB pcb2 = new PCB();
-        PCB pcb3 = new PCB();
-        exec.enQueue(pcb);
-        exec.enQueue(pcb2);
-        exec.enQueue(pcb3);
-
-        exec.printPCB(exec.first);
+//        ExecutionQueue exec = new ExecutionQueue();
+//        PCB pcb = new PCB();
+//        PCB pcb2 = new PCB();
+//        PCB pcb3 = new PCB();
+//        exec.enQueue(pcb);
+//        exec.enQueue(pcb2);
+//        exec.enQueue(pcb3);
+//
+//        exec.printPCB(exec.first);
 
     }
 }

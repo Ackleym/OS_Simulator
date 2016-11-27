@@ -16,9 +16,9 @@ public class Test {
         pcb2.setMemory(55);
         PCB pcb3 = new PCB();
         pcb3.setMemory(21);
-        scheduler.insertPCB(pcb, wait, exec);
-        scheduler.insertPCB(pcb2, wait, exec);
-        scheduler.insertPCB(pcb3, wait, exec);
+        scheduler.insertPCB(pcb);
+        scheduler.insertPCB(pcb2);
+        scheduler.insertPCB(pcb3);
         exec.run(35, exec);
         exec.printPCB(exec.first);
         comm.mem(exec);

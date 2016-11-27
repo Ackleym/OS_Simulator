@@ -1,8 +1,15 @@
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Scanner;
+
 /**
  * Created by Michael on 11/25/2016.
  */
 public class CommandInterface
 {
+    public static ReadIn read;
+
+
     public void proc()
     {
 //        for (int i; i = unfinished processes; i++)
@@ -40,10 +47,14 @@ public class CommandInterface
 
     }
 
-    public void load(String job)
+    public static void load(String job)
     {
-//      getProgram(job);
-//      insertPCB(int id, int priority);
+        read.openFile(job);
+        read.readFile(job);
+        read.closeFile();
+        PCB pcb = new PCB();
+        pcb.setName(read.testArray.get(4));
+        System.out.println("--------" + pcb.name);
     }
 
     public void reset()
@@ -54,5 +65,10 @@ public class CommandInterface
     public void promptUser()
     {
 //        get command from user
+    }
+
+    public static void main(String[] args)
+    {
+        load("WordProcessor");
     }
 }

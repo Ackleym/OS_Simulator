@@ -3,9 +3,11 @@
  */
 public class CPU
 {
+    static int clock = 0;
+
         public void advanceClock()
         {
-//            cycle++;
+            clock++;
         }
 
     public void detectInterrupt()
@@ -14,9 +16,15 @@ public class CPU
 //                do something
     }
 
-    public void detectPreemption()
+    public Boolean detectPreemption(ExecutionQueue exec)
     {
-//            if (preemption)
-//                do something
+        if (exec.first.pcb.state == "Wait")
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
     }
 }

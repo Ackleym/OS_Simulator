@@ -3,10 +3,11 @@
  */
 public class Scheduler {
 
-
+    public static ExecutionQueue exec = new ExecutionQueue();
+    public static WaitQueue wait = new WaitQueue();
 
     //Insert PCB into the proper queue
-    public void insertPCB(PCB pcb, WaitQueue wait, ExecutionQueue exec)
+    public static void insertPCB(PCB pcb)
     {
         if (pcb.state == "New");
         {

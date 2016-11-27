@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 /**
  * Created by Michael on 11/25/2016.
  */
@@ -5,6 +7,7 @@ public class PCB {
 
     String state;
     String name;
+    ArrayList<String> instructions = new ArrayList<>();
     int memory;
     int arrival;
     int timeElapsed;
@@ -19,6 +22,7 @@ public class PCB {
         this.arrival = 0;
         this.timeElapsed = 0;
         this.counter = 0;
+        this.instructions = null;
     }
 
     public void setState(String state)
@@ -34,6 +38,11 @@ public class PCB {
     public void setMemory(int memory)
     {
         this.memory = memory;
+    }
+
+    public void setName(String name)
+    {
+        this.name = name;
     }
 
     public void printMemory()
