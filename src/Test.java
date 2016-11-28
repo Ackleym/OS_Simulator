@@ -6,22 +6,30 @@ public class Test {
     public static void main(String[] args)
     {
         Scheduler scheduler = new Scheduler();
-        ExecutionQueue exec = new ExecutionQueue();
-        WaitQueue wait = new WaitQueue();
         CommandInterface comm = new CommandInterface();
+        CPU cpu = new CPU();
 
-        PCB pcb = new PCB();
-        pcb.setMemory(34);
-        PCB pcb2 = new PCB();
-        pcb2.setMemory(55);
-        PCB pcb3 = new PCB();
-        pcb3.setMemory(21);
-        scheduler.insertPCB(pcb);
-        scheduler.insertPCB(pcb2);
-        scheduler.insertPCB(pcb3);
-        exec.run(35, exec);
-        exec.printPCB(exec.first);
-        comm.mem(exec);
+        comm.load("WordProcessor");
+        CPU.clock = 15;
+        Scheduler.checkEvent();
+        Scheduler.exec.printPCB(scheduler.exec.first);
+        comm.mem();
+
+
+
+
+//        PCB pcb = new PCB();
+//        pcb.setMemory(34);
+//        PCB pcb2 = new PCB();
+//        pcb2.setMemory(55);
+//        PCB pcb3 = new PCB();
+//        pcb3.setMemory(21);
+//        scheduler.insertPCB(pcb);
+//        scheduler.insertPCB(pcb2);
+//        scheduler.insertPCB(pcb3);
+//        Scheduler.exec.run(35, Scheduler.exec);
+//        Scheduler.exec.printPCB(Scheduler.exec.first);
+//        comm.mem(Scheduler.exec);
 
 
 

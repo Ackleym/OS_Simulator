@@ -30,7 +30,7 @@ public class PCB {
         this.state = state;
     }
 
-    public String getState(String state)
+    public String getState()
     {
         return state;
     }

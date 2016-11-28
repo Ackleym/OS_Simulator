@@ -3,6 +3,9 @@
  */
 public class Clock
 {
+
+    public static int clock = 0;
+
     public void execute()
     {
 

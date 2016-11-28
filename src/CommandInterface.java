@@ -2,6 +2,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import static java.lang.Integer.parseInt;
+
 /**
  * Created by Michael on 11/25/2016.
  */
@@ -19,32 +21,27 @@ public class CommandInterface
 //        getIORequests();
     }
 
-    public void mem(ExecutionQueue exec)
+    public void mem()
     {
         System.out.println("Memory Remaining: " + CacheMemory.memoryRemaining);
         System.out.println("Memory Usage:");
-        exec.current = exec.first;
-        System.out.println(exec.current.pcb.name + ": " + exec.current.pcb.memory);
+        Scheduler.exec.current = Scheduler.exec.first;
+        System.out.println(Scheduler.exec.current.pcb.name + ": " + Scheduler.exec.current.pcb.memory);
         for (int i = 1; i < ExecutionQueue.numProcesses; i++)
         {
-            exec.current = exec.current.next;
-            System.out.println(exec.current.pcb.name + ": " + exec.current.pcb.memory);
+            Scheduler.exec.current = Scheduler.exec.current.next;
+            System.out.println(Scheduler.exec.current.pcb.name + ": " + Scheduler.exec.current.pcb.memory);
         }
     }
 
     public void exe()
     {
-//        if (ready queue = null)
-//        {
-//            return;
-//        }
-//        else (int i = 0; i < cycle; i++)
-//            Run the simulation
+//        run simulation until finished
     }
 
     public void exe(int cycle)
     {
-
+//      run simulation for given amount of cycles
     }
 
     public static void load(String job)
@@ -52,9 +49,15 @@ public class CommandInterface
         read.openFile(job);
         read.readFile(job);
         read.closeFile();
+        ECB ecb = new ECB();
         PCB pcb = new PCB();
         pcb.setName(read.testArray.get(4));
-        System.out.println("--------" + pcb.name);
+        ecb.setName(pcb.name);
+        ecb.setHandler("Scheduler");
+        ecb.setTime(parseInt(read.testArray.get(2)));
+        ecb.pcb = pcb;
+        EventQueue.queue.add(ecb);
+
     }
 
     public void reset()
@@ -70,5 +73,6 @@ public class CommandInterface
     public static void main(String[] args)
     {
         load("WordProcessor");
+
     }
 }

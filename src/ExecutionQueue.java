@@ -17,11 +17,11 @@ public class ExecutionQueue {
         current = null;
         this.first = null;
         this.last = null;
-        int numProc = 0;
+        numProcesses = 0;
     }
 
 
-    public PCBNode enQueue(PCB pcb)
+    public void enQueue(PCB pcb)
     {
         PCBNode newNode = new PCBNode(pcb);
         newNode.pcb = pcb;
@@ -41,7 +41,6 @@ public class ExecutionQueue {
             last = newNode;
         }
 
-        return newNode;
     }
 
     public void deQueue()
@@ -97,7 +96,7 @@ public class ExecutionQueue {
 
     public void printPCB(PCBNode node)
     {
-
+        String name = node.pcb.name;
         int memory = node.pcb.memory;
         int arrival = node.pcb.arrival;
         int timeElapsed = node.pcb.timeElapsed;
@@ -105,7 +104,7 @@ public class ExecutionQueue {
         String state = node.pcb.state;
         int priority = node.pcb.priority;
 
-        System.out.println("Memory: " + memory + "\n" + "Arrival: " + arrival + "\n" + "Time Elapsed: " + timeElapsed +
+        System.out.println("Name: " + name + "\n" + "Memory: " + memory + "\n" + "Arrival: " + arrival + "\n" + "Time Elapsed: " + timeElapsed +
                 "\n" + "Counter: " + counter + "\n" + "State: " + state + "\n" + "Priority: " + priority + "\n");
 
         if (node.next != null)
@@ -119,24 +118,6 @@ public class ExecutionQueue {
     public static void main(String[] args)
     {
 
-//    	BufferedReader br = null;
-//        try {
-//            br = new BufferedReader(new FileReader("./src/WordProcessorProc.txt"));
-//            String line;
-//            while ((line = br.readLine()) != null) {
-//                System.out.println(line);
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        } finally {
-//            try {
-//                if (br != null) {
-//                    br.close();
-//                }
-//            } catch (IOException ex) {
-//                ex.printStackTrace();
-//            }
-//        }
 
 //        ExecutionQueue exec = new ExecutionQueue();
 //        PCB pcb = new PCB();

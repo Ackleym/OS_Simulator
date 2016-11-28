@@ -1,23 +1,19 @@
-/**
- * Created by Michael on 11/25/2016.
- */
+import java.util.PriorityQueue;
+
 public class EventQueue
 {
-    public void enQueue()
-    {
-//        when load(process)
-//            place process into queue
-//            setState(process, ready)
+    public static PriorityQueue<ECB> queue = new PriorityQueue<>();
+
+    public static void enQueue(ECB event) {
+        queue.add(event);
     }
 
-    public void deQueue()
-    {
-//        when process ready
-//            check clock
-//            check memory
-//            if both are good
-//                deQueue(process)
-//                    places process into execution queue
+    public static ECB peek() {
+        return queue.peek();
     }
 
+    public static ECB deQueue() {
+        return queue.poll();
+    }
 }
+
