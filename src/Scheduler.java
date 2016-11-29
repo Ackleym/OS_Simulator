@@ -10,34 +10,18 @@ public class Scheduler {
     public static ReadIn read;
 
     //Check to see if top priority event is load command
-    public static void checkEvent()
-    {
-        ECB ecb = new ECB();
-        ecb = EventQueue.queue.peek();
 
-            if (ecb.handler == "Scheduler")
-            {
-                if (CPU.clock == ecb.time)
-                {
-                    PCB pcb = new PCB();
-                    pcb = ecb.pcb;
-                    read.openFile(ecb.pcb.name + "Proc");
-                    read.readFile(ecb.pcb.name + "Proc");
-                    read.closeFile();
-                    pcb.memory = parseInt(read.testArray.get(0));
-                    pcb.arrival = CPU.clock;
-                    read.testArray.remove(0);
-                    pcb.instructions = read.testArray;
-                    insertPCB(ecb.pcb);
-                }
-            }
-
-    }
     //Insert PCB into the proper queue
     public static void insertPCB(PCB pcb)
     {
-        if (pcb.state == "New");
-        {
+        read.openFile(pcb.name + "Proc");
+        read.readFile(pcb.name + "Proc");
+        read.closeFile();
+        pcb.memory = parseInt(read.testArray.get(0));
+        pcb.cpuNeeded = parseInt(read.testArray.get(1));
+        read.testArray.remove(0);
+        read.testArray.remove(0);
+        pcb.instructions = read.testArray;
             if (pcb.memory > CacheMemory.memoryRemaining)
             {
                 wait.enQueue(pcb);
@@ -49,57 +33,51 @@ public class Scheduler {
                 exec.enQueue(pcb);
                 CacheMemory.memoryRemaining = CacheMemory.memoryRemaining - pcb.memory;
                 ExecutionQueue.numProcesses = ExecutionQueue.numProcesses + 1;
+                pcb.arrival = CPU.clock;
 
             }
         }
 
-    }
-
     //Remove the PCB from queue
-    public void removePCB(PCB pcb)
+    public static void removePCB()
     {
+        PCB pcb = exec.first.pcb;
         if (pcb.state == "Exit")
         {
             CacheMemory.memoryRemaining = CacheMemory.memoryRemaining + pcb.memory;
+            exec.deQueue();
             pcb = null;
         }
     }
 
-    //Get the wait(?) for a given process
-    public void getWait(Process process)
+    public int getWait(PCB pcb)
     {
-//        PCB = process.PCB;
-//        return PCB.timeElapsed;
+        return pcb.timeElapsed;
     }
 
     //Set wait(?) for a given process
-    public void setWait(Process process, int wait)
+    public void setWait(PCB pcb, int wait)
     {
-//        PCB = process.PCB;
-//        process.timeElapsed = wait;
+        pcb.timeElapsed = wait;
     }
 
-    public void getArrival(Process process)
+    public int getArrival(PCB pcb)
     {
-//        PCB = process.PCB;
-//        return PCB.timeElapsed;
-
+        return pcb.arrival;
     }
 
-    public void setArrival(Process process, int arrival)
+    public void setArrival(PCB pcb, int arrival)
     {
-//        PCB = process.PCB;
-//        process.arrival = arrival;
+        pcb.arrival = arrival;
     }
 
-    public void getCPUTime()
+    public int getCPUTime()
     {
-//      time = clock;
-//        return time;
+        return CPU.clock;
     }
 
     public void setCPUTime(int time)
     {
-//        clock = time;
+        CPU.clock = time;
     }
 }

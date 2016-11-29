@@ -103,9 +103,10 @@ public class ExecutionQueue {
         int counter = node.pcb.counter;
         String state = node.pcb.state;
         int priority = node.pcb.priority;
+        int cpuNeeded = node.pcb.cpuNeeded;
 
         System.out.println("Name: " + name + "\n" + "Memory: " + memory + "\n" + "Arrival: " + arrival + "\n" + "Time Elapsed: " + timeElapsed +
-                "\n" + "Counter: " + counter + "\n" + "State: " + state + "\n" + "Priority: " + priority + "\n");
+                "\n" + "Counter: " + counter + "\n" + "State: " + state + "\n" + "Priority: " + priority + "\n" + "CPU Needed: " + cpuNeeded);
 
         if (node.next != null)
         {

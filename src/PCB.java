@@ -13,6 +13,10 @@ public class PCB {
     int timeElapsed;
     int counter;
     int priority;
+    int cpuNeeded;
+    int cpuUsed;
+    int ioRequests;
+    int pointer;
 
 
     public PCB() {
@@ -23,6 +27,10 @@ public class PCB {
         this.timeElapsed = 0;
         this.counter = 0;
         this.instructions = null;
+        this.cpuNeeded = 0;
+        this.cpuUsed = 0;
+        this.ioRequests = 0;
+        this.pointer = 0;
     }
 
     public void setState(String state)
@@ -64,6 +72,22 @@ public class PCB {
     public void setPriority(int priority)
     {
         this.priority = priority;
+    }
+
+    public void printPCB()
+    {
+        String name = this.name;
+        int memory = this.memory;
+        int arrival = this.arrival;
+        int timeElapsed = this.timeElapsed;
+        int counter = this.counter;
+        String state = this.state;
+        int priority = this.priority;
+        int cpuNeeded = this.cpuNeeded;
+
+        System.out.println("Name: " + name + "\n" + "Memory: " + memory + "\n" + "Arrival: " + arrival + "\n" + "Time Elapsed: " + timeElapsed +
+                "\n" + "Counter: " + counter + "\n" + "State: " + state + "\n" + "Priority: " + priority + "\n" + "CPU Needed: " + cpuNeeded);
+
     }
 }
 

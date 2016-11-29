@@ -36,7 +36,7 @@ public class CommandInterface
 
     public void exe()
     {
-//        run simulation until finished
+        CPU.cpu.run();
     }
 
     public void exe(int cycle)
@@ -49,14 +49,10 @@ public class CommandInterface
         read.openFile(job);
         read.readFile(job);
         read.closeFile();
-        ECB ecb = new ECB();
         PCB pcb = new PCB();
-        pcb.setName(read.testArray.get(4));
-        ecb.setName(pcb.name);
-        ecb.setHandler("Scheduler");
-        ecb.setTime(parseInt(read.testArray.get(2)));
-        ecb.pcb = pcb;
-        EventQueue.queue.add(ecb);
+        pcb.setName(read.testArray.get(0));
+        Scheduler.insertPCB(pcb);
+
 
     }
 
@@ -70,9 +66,4 @@ public class CommandInterface
 //        get command from user
     }
 
-    public static void main(String[] args)
-    {
-        load("WordProcessor");
-
-    }
 }

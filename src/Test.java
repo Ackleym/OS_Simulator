@@ -10,10 +10,9 @@ public class Test {
         CPU cpu = new CPU();
 
         comm.load("WordProcessor");
-        CPU.clock = 15;
-        Scheduler.checkEvent();
         Scheduler.exec.printPCB(scheduler.exec.first);
         comm.mem();
+        comm.exe();
 
 
 
