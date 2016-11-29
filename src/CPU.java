@@ -10,7 +10,7 @@ public class CPU
     static int cycle = 0;
     static int cycleMax = 30;
 
-        public void advanceClock()
+        public static void advanceClock()
         {
             clock++;
         }
@@ -48,13 +48,16 @@ public class CPU
                 cpuPCB.cpuUsed++;
                 Scheduler.exec.increment(Scheduler.exec.first);
                 cycle++;
+                advanceClock();
                 if (cpuPCB.counter == parseInt(cpuPCB.instructions.get(cpuPCB.pointer + 1)))
                 {
-                    if (cpuPCB.instructions.get(cpuPCB.pointer + 1) != null)
+                    if (cpuPCB.instructions.get(cpuPCB.pointer + 2) != null)
                     {
                         cpuPCB.pointer += 2;
+                        cpuPCB.counter = 0;
                         Scheduler.exec.deQueue();
                         Scheduler.exec.enQueue(cpuPCB);
+                        cycle = cycleMax;
                     }
                     else
                     {
@@ -68,8 +71,13 @@ public class CPU
             if (command == "Out")
             {
                 cpuPCB.printPCB();
+                cpuPCB.pointer++;
+                cycle = cycleMax;
             }
 
         }
+
+        cycle = 0;
+        run();
     }
 }

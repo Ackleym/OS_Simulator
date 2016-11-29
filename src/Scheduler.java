@@ -32,7 +32,7 @@ public class Scheduler {
                 pcb.setState("Ready");
                 exec.enQueue(pcb);
                 CacheMemory.memoryRemaining = CacheMemory.memoryRemaining - pcb.memory;
-                ExecutionQueue.numProcesses = ExecutionQueue.numProcesses + 1;
+                ExecutionQueue.numProcesses++;
                 pcb.arrival = CPU.clock;
 
             }

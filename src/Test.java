@@ -9,8 +9,8 @@ public class Test {
         CommandInterface comm = new CommandInterface();
         CPU cpu = new CPU();
 
-        comm.load("WordProcessor");
-        Scheduler.exec.printPCB(scheduler.exec.first);
+        comm.load("Test");
+        //Scheduler.exec.printPCB(scheduler.exec.first);
         comm.mem();
         comm.exe();
 
