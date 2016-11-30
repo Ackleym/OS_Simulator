@@ -8,11 +8,15 @@ public class Clock
 
     public void execute()
     {
-
+        clock++;
     }
 
-    public void getClock()
+    public int getClock()
     {
+        return clock;
+    }
 
+    public void reset(){
+        clock = 0;
     }
 }

@@ -3,6 +3,11 @@
  */
 public class CacheMemory
 {
-    int[] cacheMemory = new int[256];
-    static int memoryRemaining = 256;
+    static final int totalMemory = 256;
+    static int memoryRemaining;
+
+    public CacheMemory()
+    {
+        memoryRemaining = 256;
+    }
 }

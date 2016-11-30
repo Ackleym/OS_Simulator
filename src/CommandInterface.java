@@ -9,8 +9,15 @@ import static java.lang.Integer.parseInt;
  */
 public class CommandInterface
 {
-    public static ReadIn read;
+    ReadIn read;
+    ExecutionQueue execqueue;
+    Scheduler scheduler;
 
+    public CommandInterface(Scheduler newScheduler)
+    {
+        scheduler = newScheduler;
+        execqueue = scheduler.getExec();
+    }
 
     public void proc()
     {
@@ -23,20 +30,25 @@ public class CommandInterface
 
     public void mem()
     {
-        System.out.println("Memory Remaining: " + CacheMemory.memoryRemaining);
+        System.out.println("\nMemory Remaining: " + CacheMemory.memoryRemaining);
         System.out.println("Memory Usage:");
-        Scheduler.exec.current = Scheduler.exec.first;
-        System.out.println(Scheduler.exec.current.pcb.name + ": " + Scheduler.exec.current.pcb.memory);
-        for (int i = 1; i < ExecutionQueue.numProcesses; i++)
+        if(scheduler.getExec().getSize() < 1)
         {
-            Scheduler.exec.current = Scheduler.exec.current.next;
-            System.out.println(Scheduler.exec.current.pcb.name + ": " + Scheduler.exec.current.pcb.memory);
+            System.out.println("No Processes in Memory\n");
+            return;
         }
+
+        for (int i = 0; i < scheduler.getExec().getSize(); i++)
+        {
+            System.out.println(scheduler.getExec().get(i).getName() + ": " +
+                                scheduler.getExec().get(i).getMemory());
+        }
+        System.out.println();
     }
 
     public void exe()
     {
-        CPU.cpu.run();
+
     }
 
     public void exe(int cycle)
@@ -44,14 +56,15 @@ public class CommandInterface
 //      run simulation for given amount of cycles
     }
 
-    public static void load(String job)
+    public void load(String job)
     {
+        read = new ReadIn();
         read.openFile(job);
         read.readFile(job);
         read.closeFile();
         PCB pcb = new PCB();
         pcb.setName(read.testArray.get(0));
-        Scheduler.insertPCB(pcb);
+        scheduler.insertPCB(pcb);
 
 
     }

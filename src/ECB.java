@@ -3,24 +3,31 @@ import java.util.ArrayList;
 /**
  * Created by Michael on 11/27/2016.
  */
+
+import java.util.Random;
+
 public class ECB {
 
     String name;
     String handler;
-    PCB pcb;
     int priority;
-    int time;
-
+    int ioBurst;
+    Random random;
 
     public ECB() {
+        random = new Random();
         this.name = "Name";
         this.handler = "Handler";
         this.priority = 0;
-        this.pcb = null;
-        this.time = 0;
+        this.ioBurst = random.nextInt(26) + 25;
     }
 
-
+    public ECB(int ioBurst) {
+        this.name = "Name";
+        this.handler = "Handler";
+        this.priority = 0;
+        this.ioBurst = ioBurst;
+    }
 
     public void setName(String name)
     {
@@ -42,8 +49,20 @@ public class ECB {
         return handler;
     }
 
-    public void setTime(int time)
+    public void setIoBurst(int ioBurst)
     {
-        this.time = time;
+        this.ioBurst = ioBurst;
+    }
+
+    public int getIoBurst() {
+        return ioBurst;
+    }
+
+    public void setPriority(int priority) {
+        this.priority = priority;
+    }
+
+    public int getPriority() {
+        return priority;
     }
 }

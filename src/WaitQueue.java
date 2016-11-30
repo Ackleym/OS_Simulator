@@ -1,74 +1,62 @@
 /**
  * Created by Michael on 11/25/2016.
  */
+
+import java.util.ArrayList;
+
 public class WaitQueue
 {
+    ArrayList<PCB> queue;
 
-    PCBNode current;
-    PCBNode first;
-    PCBNode last;
-    int numProc;
-
-    public void highPriority()
-    {
-        current = null;
-        this.first = null;
-        this.last = null;
-        int numProc = 0;
+    public WaitQueue() {
+        queue = new ArrayList<>();
     }
 
-    public PCBNode enQueue(PCB pcb)
-    {
-        PCBNode newNode = new PCBNode(pcb);
-        newNode.pcb = pcb;
-
-        if (current == null)
-        {
-            first = newNode;
-            last = newNode;
-            current = newNode;
-            current.next = null;
-        }
-
-        else
-        {
-            current.next = newNode;
-            current = newNode;
-            last = newNode;
-        }
-
-        return newNode;
+    public void enQueue(PCB pcb) {
+        queue.add(pcb);
     }
 
-    public void printPCB(PCBNode node)
-    {
+    public void printPCB() {
+        if(queue.isEmpty()) {
+            System.out.println("Wait Queue is Empty");
+            return;
+        }
 
-        int memory = node.pcb.memory;
-        int arrival = node.pcb.arrival;
-        int timeElapsed = node.pcb.timeElapsed;
-        int counter = node.pcb.counter;
-        String state = node.pcb.state;
-        int priority = node.pcb.priority;
+        System.out.println("Current Wait Queue Contents");
+        for (int i=0; i<queue.size(); i++) {
+            String name = queue.get(i).getName();
+            int memory = queue.get(i).getMemory();
+            int arrival = queue.get(i).getArrival();
+            int timeElapsed = queue.get(i).getTimeElapsed();
+            int counter = queue.get(i).getCounter();
+            String state = queue.get(i).getState();
+            int priority = queue.get(i).getPriority();
+            int cpuNeeded = queue.get(i).getCpuBurst();
 
-        System.out.println("Memory: " + memory + "\n" + "Arrival: " + arrival + "\n" + "Time Elapsed: " + timeElapsed +
-                "\n" + "Counter: " + counter + "\n" + "State: " + state + "\n" + "Priority: " + priority + "\n");
-
-        if (node.next != null)
-        {
-            node = node.next;
-            printPCB(node);
+            System.out.println("Name: " + name +
+                    "\nMemory: " + memory +
+                    "\nArrival: " + arrival +
+                    "\nTime Elapsed: " + timeElapsed +
+                    "\nCounter: " + counter +
+                    "\nState: " + state +
+                    "\nPriority: " + priority +
+                    "\nCPU Burst: " + cpuNeeded + "\n");
         }
     }
 
-    public void deQueue(ExecutionQueue exec)
-    {
-        PCB pcb = new PCB();
-        pcb = first.pcb;
-        exec.enQueue(pcb);
-        if (first.next != null)
-            first.next.prev = null;
-        first = first.next;
-
+    public PCB deQueue() {
+        return queue.remove(0);
     }
 
+    public PCB getFirst() {
+        return queue.get(0);
+    }
+
+    public PCB get(int pos) {
+        return queue.get(pos);
+    }
+
+    public int getSize() {
+        return queue.size();
+    }
 }

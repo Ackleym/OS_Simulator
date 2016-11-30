@@ -5,49 +5,87 @@ import static java.lang.Integer.parseInt;
  */
 public class Scheduler {
 
-    public static ExecutionQueue exec = new ExecutionQueue();
-    public static WaitQueue wait = new WaitQueue();
-    public static ReadIn read;
+    private static ExecutionQueue exec;
+    private static WaitQueue wait;
+    private static EventQueue event;
+    private Clock clock;
+
+    public Scheduler(Clock nclock)
+    {
+        exec = new ExecutionQueue();
+        wait = new WaitQueue();
+        event = new EventQueue();
+        clock = nclock;
+    }
 
     //Check to see if top priority event is load command
 
     //Insert PCB into the proper queue
-    public static void insertPCB(PCB pcb)
+    public void insertPCB(PCB pcb)
     {
+        ReadIn read = new ReadIn();
         read.openFile(pcb.name + "Proc");
         read.readFile(pcb.name + "Proc");
         read.closeFile();
-        pcb.memory = parseInt(read.testArray.get(0));
-        pcb.cpuNeeded = parseInt(read.testArray.get(1));
+        pcb.setMemory(parseInt(read.testArray.get(0)));
+        pcb.setCpuBurst(parseInt(read.testArray.get(1)));
+
         read.testArray.remove(0);
         read.testArray.remove(0);
-        pcb.instructions = read.testArray;
-            if (pcb.memory > CacheMemory.memoryRemaining)
-            {
-                wait.enQueue(pcb);
-            }
 
-            else
-            {
-                pcb.setState("Ready");
-                exec.enQueue(pcb);
-                CacheMemory.memoryRemaining = CacheMemory.memoryRemaining - pcb.memory;
-                ExecutionQueue.numProcesses++;
-                pcb.arrival = CPU.clock;
-
-            }
+        pcb.setInstructions(read.testArray);
+        if (pcb.memory > CacheMemory.memoryRemaining)
+        {
+            pcb.setState("Ready");
+            wait.enQueue(pcb);
         }
 
+        else
+        {
+            pcb.setState("Ready");
+            exec.enQueue(pcb);
+            CacheMemory.memoryRemaining = CacheMemory.memoryRemaining - pcb.getMemory();
+            pcb.setArrival(clock.getClock());
+        }
+    }
+
     //Remove the PCB from queue
-    public static void removePCB()
+    public void removePCB()
     {
-        PCB pcb = exec.first.pcb;
-        if (pcb.state == "Exit")
+        if(exec.getSize() == 0) {
+            return;
+        }
+
+        PCB pcb = exec.getFirst();
+        if (pcb.state.equalsIgnoreCase("Exit"))
         {
             CacheMemory.memoryRemaining = CacheMemory.memoryRemaining + pcb.memory;
             exec.deQueue();
-            pcb = null;
+
+            if(wait.getSize() > 0)
+            {
+                if (wait.getFirst().getMemory() <= CacheMemory.memoryRemaining) {
+                    PCB temp = wait.deQueue();
+                    temp.setState("Ready");
+                    temp.arrival = clock.getClock();
+                    exec.enQueue(temp);
+                    CacheMemory.memoryRemaining = CacheMemory.memoryRemaining - temp.memory;
+                }
+            }
+
         }
+    }
+
+    public void cycle(){
+        exec.cycle();
+    }
+
+    public void insertECB(ECB ecb, String name, String handler, int priority, int ioBurst) {
+        ecb.setName(name);
+        ecb.setHandler(handler);
+        ecb.setPriority(priority);
+        ecb.setIoBurst(ioBurst);
+        event.enQueue(ecb);
     }
 
     public int getWait(PCB pcb)
@@ -73,11 +111,18 @@ public class Scheduler {
 
     public int getCPUTime()
     {
-        return CPU.clock;
+        return clock.getClock();
     }
 
-    public void setCPUTime(int time)
-    {
-        CPU.clock = time;
+    public ExecutionQueue getExec(){
+        return exec;
+    }
+
+    public WaitQueue getWait() {
+        return wait;
+    }
+
+    public EventQueue getEvent() {
+        return event;
     }
 }

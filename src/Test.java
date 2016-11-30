@@ -5,14 +5,24 @@ public class Test {
 
     public static void main(String[] args)
     {
-        Scheduler scheduler = new Scheduler();
-        CommandInterface comm = new CommandInterface();
-        CPU cpu = new CPU();
+        OS os = new OS();
+//        Scheduler scheduler = new Scheduler();
+//        CommandInterface comm = new CommandInterface();
+//        CPU cpu = new CPU();
 
-        comm.load("Test");
-        //Scheduler.exec.printPCB(scheduler.exec.first);
-        comm.mem();
-        comm.exe();
+        os.comm.load("Test");
+        os.comm.load("WordProcessor");
+        os.comm.load("Test");
+//        os.comm.load("WordProcessor");
+        os.comm.mem();
+        os.scheduler.getExec().printPCB();
+        os.scheduler.getWait().printPCB();
+        os.exe(-1);
+
+//        comm.load("Test");
+////        os.scheduler.exec.printPCB(os.scheduler.exec.first);
+//        comm.mem();
+//        comm.exe();
 
 
 

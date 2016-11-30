@@ -1,3 +1,4 @@
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -13,8 +14,7 @@ public class PCB {
     int timeElapsed;
     int counter;
     int priority;
-    int cpuNeeded;
-    int cpuUsed;
+    int cpuBurst;
     int ioRequests;
     int pointer;
 
@@ -27,8 +27,7 @@ public class PCB {
         this.timeElapsed = 0;
         this.counter = 0;
         this.instructions = null;
-        this.cpuNeeded = 0;
-        this.cpuUsed = 0;
+        this.cpuBurst = 0;
         this.ioRequests = 0;
         this.pointer = 0;
     }
@@ -43,6 +42,46 @@ public class PCB {
         return state;
     }
 
+    public ArrayList<String> getInstructions() {
+        return instructions;
+    }
+
+    public int getMemory() {
+        return memory;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getArrival() {
+        return arrival;
+    }
+
+    public int getTimeElapsed() {
+        return timeElapsed;
+    }
+
+    public int getCounter() {
+        return counter;
+    }
+
+    public int getPriority() {
+        return priority;
+    }
+
+    public int getCpuBurst() {
+        return cpuBurst;
+    }
+
+    public int getPointer() {
+        return pointer;
+    }
+
+    public void setPointer(int pointer) {
+        this.pointer = pointer;
+    }
+
     public void setMemory(int memory)
     {
         this.memory = memory;
@@ -53,13 +92,25 @@ public class PCB {
         this.name = name;
     }
 
+    public void setCpuBurst(int cpuBurst) {
+        this.cpuBurst = cpuBurst;
+    }
+
+    public void setInstructions(ArrayList<String> instructions) {
+        this.instructions = instructions;
+    }
+
+    public void setArrival(int arrival) {
+        this.arrival = arrival;
+    }
+
     public void printMemory()
     {
         memory = this.memory;
         System.out.println(memory);
     }
 
-    public void timeElapsed(int time)
+    public void setTimeElapsed(int time)
     {
         this.timeElapsed = time;
     }
@@ -83,10 +134,10 @@ public class PCB {
         int counter = this.counter;
         String state = this.state;
         int priority = this.priority;
-        int cpuNeeded = this.cpuNeeded;
+        int cpuBurst = this.cpuBurst;
 
         System.out.println("Name: " + name + "\n" + "Memory: " + memory + "\n" + "Arrival: " + arrival + "\n" + "Time Elapsed: " + timeElapsed +
-                "\n" + "Counter: " + counter + "\n" + "State: " + state + "\n" + "Priority: " + priority + "\n" + "CPU Needed: " + cpuNeeded);
+                "\n" + "Counter: " + counter + "\n" + "State: " + state + "\n" + "Priority: " + priority + "\n" + "CPU Burst: " + cpuBurst);
 
     }
 }
