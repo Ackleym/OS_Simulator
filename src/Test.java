@@ -10,6 +10,7 @@ public class Test {
         CPU cpu = new CPU();
 
         comm.load("Test");
+        comm.load("Test");
         //Scheduler.exec.printPCB(scheduler.exec.first);
         comm.mem();
         comm.exe();

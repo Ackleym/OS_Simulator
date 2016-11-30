@@ -31,49 +31,101 @@ public class CPU {
         cpuPCB = Scheduler.exec.first.pcb;
         String command = cpuPCB.instructions.get(cpuPCB.pointer);
         System.out.println(command);
+        cycle = 0;
 
-        if (command.equalsIgnoreCase("Calculate")) {
-            cycle = 0;
-            System.out.println("Madeit");
+        switch (command) {
+            case "Out":
 
-            while (cycle < cycleMax) {
-                System.out.println("Madeit");
-                cpuPCB.counter++;
-                cpuPCB.cpuNeeded--;
-                cpuPCB.cpuUsed++;
-                cycle++;
-                advanceClock();
-                System.out.println(cpuPCB.counter);
-                //.02 to IO
-                //If IO
+                cpuPCB.printPCB();
+                cpuPCB.pointer++;
+                Scheduler.roundRobin(cpuPCB);
+                cycle = cycleMax;
+                break;
 
-                if (cpuPCB.counter == parseInt(cpuPCB.instructions.get(cpuPCB.pointer + 1))) {
-                    {
+            case "Calculate":
+
+                while (cycle < cycleMax) {
+                    cpuPCB.counter++;
+                    cpuPCB.cpuNeeded--;
+                    cpuPCB.cpuUsed++;
+                    cycle++;
+                    advanceClock();
+                    System.out.println(cpuPCB.counter);
+                    //.02 to IO
+                    //If IO
+
+                    if (cpuPCB.counter == parseInt(cpuPCB.instructions.get(cpuPCB.pointer + 1))) {
                         cpuPCB.pointer += 2;
                         cpuPCB.counter = 0;
-                        Scheduler.exec.deQueue();
-                        Scheduler.exec.enQueue(cpuPCB);
                         cycle = cycleMax;
 
                     }
+
                 }
-            }
+                Scheduler.roundRobin(cpuPCB);
+                break;
 
-        }
-
-            if (command.equalsIgnoreCase("Out"))
-            {
-                cpuPCB.printPCB();
+            case "Yield":
                 cpuPCB.pointer++;
+                Scheduler.roundRobin(cpuPCB);
+                break;
 
-            }
-
-            if (command.equalsIgnoreCase("Stop"))
-            {
+            case "Stop":
+                cpuPCB.state = "Exit";
                 Scheduler.removePCB();
-                cycle = cycleMax;
-            }
-        if (Scheduler.exec.first != null)
-        run();
+                break;
+
         }
-    }
+            if (Scheduler.exec.first != null)
+                run();
+            }
+
+
+
+
+//            if (command.equalsIgnoreCase("Out")) {
+//                cpuPCB.printPCB();
+//                cpuPCB.pointer++;
+//                Scheduler.roundRobin(cpuPCB);
+//
+//            }
+
+//            if (command.equalsIgnoreCase("Calculate")) {
+//                cycle = 0;
+//
+//                while (cycle < cycleMax) {
+//                    cpuPCB.counter++;
+//                    cpuPCB.cpuNeeded--;
+//                    cpuPCB.cpuUsed++;
+//                    cycle++;
+//                    advanceClock();
+//                    System.out.println(cpuPCB.counter);
+//                    //.02 to IO
+//                    //If IO
+//
+//                    if (cpuPCB.counter == parseInt(cpuPCB.instructions.get(cpuPCB.pointer + 1))) {
+//                        cpuPCB.pointer += 2;
+//                        cpuPCB.counter = 0;
+//                        Scheduler.roundRobin(cpuPCB);
+//                        cycle = cycleMax;
+//
+//                    }
+//
+//                }
+//                Scheduler.roundRobin(cpuPCB);
+
+//            }
+//            if (command.equalsIgnoreCase("Yield")) {
+//                cpuPCB.pointer++;
+//                Scheduler.roundRobin(cpuPCB);
+//            }
+//
+//
+//            if (command.equalsIgnoreCase("Stop")) {
+//                cpuPCB.state = "Exit";
+//                Scheduler.removePCB();
+//            }
+//            if (Scheduler.exec.first != null) {
+//                run();
+//            }
+        }

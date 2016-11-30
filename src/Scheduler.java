@@ -9,7 +9,12 @@ public class Scheduler {
     public static WaitQueue wait = new WaitQueue();
     public static ReadIn read;
 
-    //Check to see if top priority event is load command
+
+    public static void roundRobin(PCB pcb)
+    {
+        exec.deQueue();
+        exec.enQueue(pcb);
+    }
 
     //Insert PCB into the proper queue
     public static void insertPCB(PCB pcb)
@@ -45,7 +50,14 @@ public class Scheduler {
         if (pcb.state == "Exit")
         {
             CacheMemory.memoryRemaining = CacheMemory.memoryRemaining + pcb.memory;
-            exec.deQueue();
+            if (exec.first.next == null)
+            {
+                exec.deQueue();
+                exec.first = null;
+            }
+            else
+                exec.deQueue();
+
             pcb = null;
         }
     }
