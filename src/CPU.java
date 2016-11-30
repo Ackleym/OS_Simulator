@@ -59,16 +59,16 @@ public class CPU {
                     }
                 }
             }
-            run();
+
         }
 
             if (command.equalsIgnoreCase("Out"))
             {
                 cpuPCB.printPCB();
                 cpuPCB.pointer++;
-                run();
+
             }
 
-
+        run();
         }
     }
