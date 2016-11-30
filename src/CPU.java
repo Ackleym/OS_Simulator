@@ -44,18 +44,17 @@ public class CPU {
                 cycle++;
                 advanceClock();
                 System.out.println(cpuPCB.counter);
+                //.02 to IO
+                //If IO
 
                 if (cpuPCB.counter == parseInt(cpuPCB.instructions.get(cpuPCB.pointer + 1))) {
-                    if (cpuPCB.instructions.get(cpuPCB.pointer + 2) != null) {
+                    {
                         cpuPCB.pointer += 2;
                         cpuPCB.counter = 0;
                         Scheduler.exec.deQueue();
                         Scheduler.exec.enQueue(cpuPCB);
                         cycle = cycleMax;
 
-                    } else {
-                        Scheduler.removePCB();
-                        cycle = cycleMax;
                     }
                 }
             }
@@ -69,6 +68,12 @@ public class CPU {
 
             }
 
+            if (command.equalsIgnoreCase("Stop"))
+            {
+                Scheduler.removePCB();
+                cycle = cycleMax;
+            }
+        if (Scheduler.exec.first != null)
         run();
         }
     }
