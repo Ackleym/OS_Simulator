@@ -26,7 +26,7 @@ public class ExecutionQueue {
         PCBNode newNode = new PCBNode(pcb);
         newNode.pcb = pcb;
 
-        if (current == null)
+        if (first == null)
         {
             first = newNode;
             last = newNode;
@@ -46,7 +46,9 @@ public class ExecutionQueue {
     public void deQueue()
     {
         if (first.next != null)
+        {
             first.next.prev = null;
+        }
         first = first.next;
 
     }
@@ -61,38 +63,37 @@ public class ExecutionQueue {
         }
     }
 
-    public void run(ExecutionQueue exec)
-    {
-        PCBNode node = new PCBNode(null);
-        PCB pcb = new PCB();
-        node = exec.first;
-        pcb = node.pcb;
-    }
+//    public void run(ExecutionQueue exec)
+//    {
+//        PCBNode node = new PCBNode(null);
+//        PCB pcb = new PCB();
+//        node = exec.first;
+//        pcb = node.pcb;
+//    }
 
-    public void run(int time, ExecutionQueue exec)
-    {
-        PCBNode node = new PCBNode(null);
-        PCB pcb = new PCB();
-        node = exec.first;
-        pcb = node.pcb;
+//    public void run(int time, ExecutionQueue exec)
+//    {
+//        PCBNode node = new PCBNode(null);
+//        PCB pcb = new PCB();
+//        node = exec.first;
+//        pcb = node.pcb;
+//
+//        for (int i = 0; i < time; i++)
+//        {
+//            if ((i % 11) == 0 && exec.first.next != null)
+//            {
+//                exec.deQueue();
+//                exec.enQueue(pcb);
+//                pcb = exec.first.pcb;
+//            }
+//            else
+//            {
+//                pcb.timeElapsed = 0;
+//                pcb.counter = (pcb.counter + 1);
+//                increment(first);
+//            }
+//        }
 
-        for (int i = 0; i < time; i++)
-        {
-            if ((i % 11) == 0 && exec.first.next != null)
-            {
-                exec.deQueue();
-                exec.enQueue(pcb);
-                pcb = exec.first.pcb;
-            }
-            else
-            {
-                pcb.timeElapsed = 0;
-                pcb.counter = (pcb.counter + 1);
-                increment(first);
-            }
-        }
-
-    }
 
     public void printPCB(PCBNode node)
     {
