@@ -16,37 +16,41 @@ public class Scheduler {
         exec = new ExecutionQueue();
         wait = new WaitQueue();
         event = new EventQueue();
+        newQueue = new WaitQueue();
         clock = nclock;
     }
 
-    //Check to see if top priority event is load command
+    //Insert into new Queue
+    public static void newProcess(PCB pcb)
+    {
+        newQueue.enQueue(pcb);
+    }
 
     //Insert PCB into the proper queue
-    public void insertPCB(PCB pcb)
-    {
-        ReadIn read = new ReadIn();
-        read.openFile(pcb.name + "Proc");
-        read.readFile(pcb.name + "Proc");
-        read.closeFile();
-        pcb.setMemory(parseInt(read.testArray.get(0)));
-        pcb.setCpuTimeNeeded(parseInt(read.testArray.get(1)));
+    public void insertPCB() {
+        if (newQueue.getSize() != 0) {
 
-        read.testArray.remove(0);
-        read.testArray.remove(0);
+            PCB pcb = newQueue.getFirst();
+            ReadIn read = new ReadIn();
+            read.openFile(pcb.name + "Proc");
+            read.readFile(pcb.name + "Proc");
+            read.closeFile();
+            pcb.setMemory(parseInt(read.testArray.get(0)));
+            pcb.setCpuTimeNeeded(parseInt(read.testArray.get(1)));
 
-        pcb.setInstructions(read.testArray);
-        if (pcb.memory > CacheMemory.memoryRemaining)
-        {
-            pcb.setState("Ready");
-            wait.enQueue(pcb);
-        }
+            read.testArray.remove(0);
+            read.testArray.remove(0);
 
-        else
-        {
-            pcb.setState("Wait");
-            exec.enQueue(pcb);
-            CacheMemory.memoryRemaining = CacheMemory.memoryRemaining - pcb.getMemory();
-            pcb.setArrival(clock.getClock());
+            pcb.setInstructions(read.testArray);
+            if (pcb.memory > CacheMemory.memoryRemaining) {
+                pcb.setState("Ready");
+                wait.enQueue(pcb);
+            } else {
+                pcb.setState("Wait");
+                exec.enQueue(pcb);
+                CacheMemory.memoryRemaining = CacheMemory.memoryRemaining - pcb.getMemory();
+                pcb.setArrival(clock.getClock());
+            }
         }
     }
 

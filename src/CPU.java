@@ -104,6 +104,10 @@ public class CPU {
     }
 
     public void run() {
+        if (scheduler.newQueue.getSize() > 0 && cycle == 0) {
+            scheduler.insertPCB();
+            scheduler.newQueue.deQueue();
+        }
         if(scheduler.getExec().getSize() == 0) {
             return;
         }
@@ -122,7 +126,6 @@ public class CPU {
 
             return;
         }
-
         PCB cpuPCB = scheduler.getExec().getFirst();
         String command = cpuPCB.getInstructions().get(cpuPCB.getPointer());
         System.out.println("\n" + cpuPCB.getName() + "\n" + cpuPCB.getState());

@@ -224,10 +224,18 @@ import javax.swing.text.StyledDocument;
 
                     print_type_two("  --  Wait Queue Contents --", t, Color.WHITE);
                     for (int i = 0; i < Scheduler.wait.getSize(); i++) {
-                        Scheduler.wait.printProc(i);
+                        Scheduler.wait.waitProc(i);
                         String string = Scheduler.wait.proc;
                         print_type_two(string, t, new Color(255, 255, 255));
                     }
+
+                    print_type_two("  --  New Queue Contents --", t, Color.WHITE);
+                    for (int i = 0; i < Scheduler.newQueue.getSize(); i++) {
+                        Scheduler.newQueue.newProc(i);
+                        String string = Scheduler.wait.proc;
+                        print_type_two(string, t, new Color(255, 255, 255));
+                    }
+
 
                 }
                 else if(commands[0].equalsIgnoreCase("mem")){
