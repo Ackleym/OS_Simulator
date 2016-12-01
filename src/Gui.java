@@ -11,6 +11,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Random;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -44,6 +45,8 @@ import javax.swing.text.StyledDocument;
 
         public StyledDocument styledoc;
 
+        public static String jobs[] = {"MediaPlayer", "PhotoEditing", "Test", "VideoGame", "VirusScan", "WebBrowser",
+        "WordProcessor"};
         public static PCBtable newtable;
         int stopTime;
         OS os;
@@ -224,6 +227,15 @@ import javax.swing.text.StyledDocument;
                 else if(commands[0].equalsIgnoreCase("mem")){
                     String mem = "Show current usage of memory space";
                     print_type_two(mem, t, new Color(255,255,255));
+
+                }
+
+                else if (commands[0].equalsIgnoreCase("load") && commands.length == 1){
+
+                    Random random = new Random();
+                    int rand = random.nextInt(6);
+                    OS.comm.load(jobs[rand]);
+                    newtable.editPCBTable();
 
                 }
 

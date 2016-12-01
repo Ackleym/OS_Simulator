@@ -30,30 +30,30 @@ public class CommandInterface
 
     public void mem()
     {
-        System.out.println("\nMemory Remaining: " + CacheMemory.memoryRemaining);
-        System.out.println("Memory Usage:");
+        String mem = ("\nMemory Remaining: " + CacheMemory.memoryRemaining);
+        mem = mem + ("\nMemory Usage:");
         if(scheduler.getExec().getSize() < 1)
         {
-            System.out.println("No Processes in Memory\n");
+            mem = mem + ("\nNo Processes in Memory");
             return;
         }
 
         for (int i = 0; i < scheduler.getExec().getSize(); i++)
         {
-            System.out.println(scheduler.getExec().get(i).getName() + ": " +
+            mem = mem + (scheduler.getExec().get(i).getName() + ": " +
                                 scheduler.getExec().get(i).getMemory());
         }
-        System.out.println();
+        System.out.println(mem);
     }
 
-    public void exe()
+    public static void exe()
     {
-
+        OS.comm.exe(-1);
     }
 
     public void exe(int cycle)
     {
-//      run simulation for given amount of cycles
+        OS.comm.exe(-1);
     }
 
     public void load(String job)
