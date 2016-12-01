@@ -3,19 +3,42 @@
  */
 public class InterruptProcessor
 {
+    IOScheduler ioScheduler;
+    IOBurst ioBurst;
+    String interrupt;
 
-    public void signalInterrupt()
-    {
-//        interrupt = true;
+    public InterruptProcessor() {
+        ioScheduler = new IOScheduler();
+        ioBurst = new IOBurst();
+        interrupt = "False";
     }
 
-    public void addEvent()
+    public String signalInterrupt()
     {
 
+        return ioScheduler.startIO();
     }
 
-    public void getEvent()
+    public void addEvent(String name, String handler, int priority)
     {
+        ECB ecb = new ECB();
+        ecb.setName(name);
+        ecb.setHandler(handler);
+        ecb.setPriority(priority);
+        ecb.setIoBurst(ioBurst.generateIOBurst());
+        ioScheduler.insertECB(ecb);
+    }
 
+    public ECB getEvent()
+    {
+        return ioScheduler.getEventQueue().peek();
+    }
+
+    public void removeEvent() {
+        ioScheduler.removeECB();
+    }
+
+    public IOScheduler getIoScheduler() {
+        return ioScheduler;
     }
 }

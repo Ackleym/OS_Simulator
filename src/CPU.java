@@ -16,7 +16,9 @@ public class CPU {
     Scheduler scheduler;
     CommandInterface comm;
     Gui gui;
-    int interrupt;
+    InterruptProcessor interruptProcessor;
+    String interrupt;
+    String interruptType;
 
     public CPU(Clock nclock, Scheduler nscheduler, CommandInterface ncomm, Gui gui) {
         clock = nclock;
@@ -24,36 +26,40 @@ public class CPU {
         cycle = 0;
         comm = new CommandInterface(scheduler);
         this.gui = gui;
-        interrupt = 0;
+        interruptProcessor = new InterruptProcessor();
+        interrupt = "False";
+        interruptType = "False";
     }
 
-    public Scheduler getScheduler()
+    public InterruptProcessor getInterruptProcessor()
     {
-        return scheduler;
+        return interruptProcessor;
     }
 
     public void detectInterrupt() {
-        if(scheduler.getEvent().getSize() > 0 && interrupt == 0) {
-            interrupt = 1;
-
-            if(scheduler.getEvent().peek().getName().equalsIgnoreCase("System")) {
-                scheduler.getExec().get(0).setState("Ready");
-            }else {
-                scheduler.getExec().get(0).setState("Wait");
-            }
-
-            System.out.println("\nPreemption - IO Interrupt\n");
+        if(interrupt.equalsIgnoreCase("False")) {
+            interrupt = interruptProcessor.signalInterrupt();
         }
 
-        if(interrupt > 1){
-            interrupt = 0;
-            scheduler.removeECB();
+        if(!interrupt.equalsIgnoreCase("False")) {
+            if(scheduler.getExec().getSize() > 0) {
+                if (interruptProcessor.getEvent().getPriority() >= scheduler.getExec().getFirst().getPriority()) {
+                    scheduler.getExec().getFirst().setState("Wait");
+                    interruptType = interrupt;
+                } else {
+                    interrupt = "False";
+                }
+            }
+        }
+
+        if(interruptType.equalsIgnoreCase("Process") && interrupt.equalsIgnoreCase("False")) {
+            interruptType = "False";
         }
 
     }
 
     public void detectPreemption() {
-        if(scheduler.getExec().getSize() == 0 || interrupt > 0) {
+        if(scheduler.getExec().getSize() == 0 || !interrupt.equalsIgnoreCase("False")) {
             return;
         }
 
@@ -63,10 +69,15 @@ public class CPU {
             System.out.println("\nPreemption\n");
         }
 
-        if(scheduler.getExec().get(0).getState().equalsIgnoreCase("Wait")) {
-            scheduler.getExec().get(0).setState("Wait");
-            scheduler.cycle();
+        if(scheduler.getExec().get(0).getState().equalsIgnoreCase("Wait") &&
+                                    interruptType.equalsIgnoreCase("System")) {
             scheduler.getExec().get(0).setState("Run");
+            interruptType = "False";
+
+            System.out.println("\nPreemption\n");
+        } else if(scheduler.getExec().get(0).getState().equalsIgnoreCase("Wait")) {
+            scheduler.cycle();
+            scheduler.getExec().getFirst().setState("Run");
             cycle = 0;
 
             System.out.println("\nPreemption\n");
@@ -104,42 +115,49 @@ public class CPU {
     }
 
     public void run() {
-        if (scheduler.newQueue.getSize() > 0 && cycle == 0) {
+        if (scheduler.getNewQueue().getSize() > 0 && cycle == 0) {
             scheduler.insertPCB();
-            scheduler.newQueue.deQueue();
-        }
-        if(scheduler.getExec().getSize() == 0) {
-            return;
+            scheduler.getNewQueue().deQueue();
         }
 
-        if(interrupt > 0){
-            ECB cpuECB = scheduler.getEvent().peek();
+        if(!interrupt.equalsIgnoreCase("False")){
+
+
+            ECB cpuECB = interruptProcessor.getEvent();
             cpuECB.setCounter(cpuECB.getCounter() + 1);
             System.out.println("\nName: " + cpuECB.getName() +
                                 "\nHandler: " + cpuECB.getHandler() +
                                 "\nCounter: " + cpuECB.getCounter());
 
             if(cpuECB.getCounter() >= cpuECB.getIoBurst()){
-                interrupt = 2;
+                interrupt = "False";
+                interruptProcessor.removeEvent();
                 return;
             }
 
             return;
         }
+
+        if(scheduler.getExec().getSize() == 0) {
+            return;
+        }
+
         PCB cpuPCB = scheduler.getExec().getFirst();
         String command = cpuPCB.getInstructions().get(cpuPCB.getPointer());
         System.out.println("\n" + cpuPCB.getName() + "\n" + cpuPCB.getState());
         cycle++;
+        cpuPCB.setTimeElapsed(0);
+        cpuPCB.decrementCpuTimeNeeded();
+        cpuPCB.incrementCpuTimeUsed();
+
+        if (Scheduler.exec.getSize() > 1) {
+            for (int i = 1; i < Scheduler.exec.getSize(); i++) {
+                scheduler.getExec().get(i).incrementTimeElapsed();
+            }
+        }
 
         if (command.equalsIgnoreCase("Calculate")) {
-            cpuPCB.timeElapsed = 0;
             cpuPCB.counter++;
-            cpuPCB.cpuTimeNeeded--;
-            cpuPCB.cpuTimeUsed++;
-            if (Scheduler.exec.getSize() > 1)
-            for (int i = 1; i < Scheduler.exec.getSize(); i++) {
-                Scheduler.exec.get(i).timeElapsed++;
-            }
             System.out.println(command + ": " + cpuPCB.getCounter());
 
             if (cpuPCB.counter == parseInt(cpuPCB.getInstructions().get(cpuPCB.getPointer() + 1))) {
@@ -167,11 +185,12 @@ public class CPU {
         }
 
         if(command.equalsIgnoreCase("IO")) {
+
+
             String name = cpuPCB.getInstructions().get(cpuPCB.getPointer() + 1);
             int priority = Integer.parseInt(cpuPCB.getInstructions().get(cpuPCB.getPointer() + 2));
-            Random random = new Random();
-            ECB ecb = new ECB();
-            scheduler.insertECB(ecb, name, cpuPCB.getName(), priority);
+
+            interruptProcessor.addEvent(name, cpuPCB.getName(), priority);
 
             cpuPCB.ioRequests++;
             cpuPCB.setPointer(cpuPCB.getPointer() + 3);

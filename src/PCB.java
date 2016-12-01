@@ -120,6 +120,18 @@ public class PCB {
         this.arrival = arrival;
     }
 
+    public void incrementTimeElapsed() {
+        timeElapsed++;
+    }
+
+    public void incrementCpuTimeUsed() {
+        cpuTimeUsed++;
+    }
+
+    public void decrementCpuTimeNeeded() {
+        cpuTimeNeeded--;
+    }
+
     public void printMemory()
     {
         memory = this.memory;

@@ -8,14 +8,12 @@ public class Scheduler {
     public static ExecutionQueue exec;
     public static WaitQueue wait;
     public static WaitQueue newQueue;
-    public static EventQueue event;
     public Clock clock;
 
     public Scheduler(Clock nclock)
     {
         exec = new ExecutionQueue();
         wait = new WaitQueue();
-        event = new EventQueue();
         newQueue = new WaitQueue();
         clock = nclock;
     }
@@ -46,7 +44,11 @@ public class Scheduler {
                 pcb.setState("Ready");
                 wait.enQueue(pcb);
             } else {
-                pcb.setState("Wait");
+                if(exec.getSize() > 0) {
+                    pcb.setState("Wait");
+                } else {
+                    pcb.setState("Run");
+                }
                 exec.enQueue(pcb);
                 CacheMemory.memoryRemaining = CacheMemory.memoryRemaining - pcb.getMemory();
                 pcb.setArrival(clock.getClock());
@@ -85,21 +87,6 @@ public class Scheduler {
         exec.cycle();
     }
 
-    public void insertECB(ECB ecb, String name, String handler, int priority) {
-        ecb.setName(name);
-        ecb.setHandler(handler);
-        ecb.setPriority(priority);
-        event.enQueue(ecb);
-    }
-
-    public void removeECB() {
-        if(event.getSize() < 1) {
-            return;
-        }
-
-        event.deQueue();
-    }
-
     public int getWait(PCB pcb)
     {
         return pcb.timeElapsed;
@@ -134,7 +121,7 @@ public class Scheduler {
         return wait;
     }
 
-    public EventQueue getEvent() {
-        return event;
+    public WaitQueue getNewQueue() {
+        return  newQueue;
     }
 }

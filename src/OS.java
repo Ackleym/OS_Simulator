@@ -26,16 +26,6 @@ public class OS{
         execute = false;
     }
 
-//    public OS(int cycles)
-//    {
-//        clock = new Clock();
-//        scheduler = new Scheduler(clock);
-//        comm = new CommandInterface(scheduler);
-//        cpu = new CPU(clock, scheduler, comm);
-//
-//        stopTime = clock.getClock() + cycles;
-//    }
-
     public void run() {
 //        System.out.println("Hi");
         while(true){
@@ -54,11 +44,8 @@ public class OS{
             clock.execute();
 
             Random random = new Random();
-            if (random.nextInt(500) == 499) {
-                ECB ecb = new ECB();
-                scheduler.insertECB(ecb, "System",
-                                    "Random Process",
-                                    random.nextInt(10) + 1);
+            if (random.nextInt(100) == 1) {
+                cpu.getInterruptProcessor().addEvent("Random Process", "System", random.nextInt(10));
             }
 
             cpu.detectInterrupt();
@@ -67,27 +54,21 @@ public class OS{
 
             cpu.run();
             gui.newtable.editPCBTable();
-            gui.new_mem.editMemTable();
+            gui.new_mem.editMemTable(this);
 
             try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {
             }
 
-//            try {
-//                Thread.sleep(500);
-//            } catch (InterruptedException ie)
-//            {
-//            }
-
-
-            if (clock.getClock() == stopTime || scheduler.getExec().getSize() == 0) {
+            if (clock.getClock() == stopTime || (scheduler.getExec().getSize() == 0) &&
+                    cpu.getInterruptProcessor().getIoScheduler().getEventQueue().getSize() == 0 &&
+                    scheduler.getNewQueue().getSize() == 0) {
                 break;
             }
 
         }
         execute = false;
-        stopTime = -1;
         System.out.println("\n\nOS is Finished\nClock: " + clock.getClock());
     }
 

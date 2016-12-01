@@ -211,16 +211,16 @@ import javax.swing.text.StyledDocument;
                         os.scheduler.removePCB();
                     }
 
-                    for(int i=0; i < os.scheduler.getEvent().getSize(); i++){
-                        os.scheduler.removeECB();
+                    for(int i=0; i < os.cpu.interruptProcessor.getIoScheduler().getEventQueue().getSize(); i++){
+                        os.cpu.interruptProcessor.removeEvent();
                     }
 
-                    os.cpu.interrupt = 0;
+                    os.cpu.interrupt = "False";
                     os.cpu.cycle = 0;
                     os.clock.reset();
 
                     newtable.editPCBTable();
-                    new_mem.editMemTable();
+                    new_mem.editMemTable(os);
 
 //                    styledoc.remove(0,styledoc.getLength());
                 }
@@ -232,7 +232,7 @@ import javax.swing.text.StyledDocument;
                         os.scheduler.getExec().printProc(i);
                         String string = os.scheduler.getExec().proc;
                         print_type_two(string, t, new Color(255, 255, 255));
-                        new_mem.editMemTable();
+                        new_mem.editMemTable(os);
                     }
 
                     print_type_two("  --  Wait Queue Contents --", t, Color.WHITE);
@@ -262,7 +262,7 @@ import javax.swing.text.StyledDocument;
                     int rand = random.nextInt(6);
                     OS.comm.load(jobs[rand]);
                     newtable.editPCBTable();
-                    new_mem.editMemTable();
+                    new_mem.editMemTable(os);
 
 
                 }
@@ -271,7 +271,7 @@ import javax.swing.text.StyledDocument;
                     OS.comm.load(commands[1]);
 
                     newtable.editPCBTable();
-                    new_mem.editMemTable();
+                    new_mem.editMemTable(os);
 
                 }
 

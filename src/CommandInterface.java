@@ -46,16 +46,6 @@ public class CommandInterface
         System.out.println(mem);
     }
 
-    public static void exe()
-    {
-        OS.comm.exe(-1);
-    }
-
-    public void exe(int cycle)
-    {
-        OS.comm.exe(-1);
-    }
-
     public void load(String job)
     {
         read = new ReadIn();
@@ -64,6 +54,7 @@ public class CommandInterface
         read.closeFile();
         PCB pcb = new PCB();
         pcb.setName(read.testArray.get(0));
+        pcb.setPriority(Integer.parseInt(read.testArray.get(1)));
         pcb.setState("New");
         scheduler.newProcess(pcb);
 

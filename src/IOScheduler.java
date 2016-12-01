@@ -3,14 +3,43 @@
  */
 public class IOScheduler
 {
-    public void scheduleIO()
-    {
+    EventQueue eventQueue;
+    String interrupt;
 
+    public IOScheduler() {
+        eventQueue = new EventQueue();
+        interrupt = "False";
     }
 
-    public void startIO()
-    {
+    public void insertECB(ECB ecb) {
+        eventQueue.enQueue(ecb);
+    }
 
+    public void removeECB() {
+        if(eventQueue.getSize() < 1) {
+            return;
+        }
+
+        eventQueue.deQueue();
+    }
+
+    public String startIO()
+    {
+        if(eventQueue.getSize() > 0) {
+            if(eventQueue.peek().getHandler().equalsIgnoreCase("System")) {
+                interrupt = "System";
+            } else {
+                interrupt = "Process";
+            }
+        } else {
+            interrupt = "False";
+        }
+
+        return interrupt;
+    }
+
+    public EventQueue getEventQueue() {
+        return eventQueue;
     }
 
 }

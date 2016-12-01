@@ -4,8 +4,6 @@ import java.util.ArrayList;
  * Created by Michael on 11/27/2016.
  */
 
-import java.util.Random;
-
 public class ECB {
 
     String name;
@@ -13,15 +11,13 @@ public class ECB {
     int priority;
     int ioBurst;
     int counter;
-    Random random;
 
     public ECB() {
-        random = new Random();
         this.name = "Name";
         this.handler = "Handler";
         this.priority = 0;
         counter = 0;
-        this.ioBurst = random.nextInt(26) + 25;
+        this.ioBurst = 0;
     }
 
     public ECB(int ioBurst) {

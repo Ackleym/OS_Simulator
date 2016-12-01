@@ -51,6 +51,7 @@ import javax.swing.JTable;
 
             public void editTable(int i) {
                 this.name = os.scheduler.getExec().get(i).getName();
+                this.priority = os.scheduler.getExec().get(i).getPriority();
                 this.memory = os.scheduler.getExec().get(i).getMemory();
                 this.state = os.scheduler.getExec().get(i).getState();
                 this.arrival = os.scheduler.getExec().get(i).getArrival();
@@ -65,7 +66,7 @@ import javax.swing.JTable;
 
         public static Table prac;
         public static Object[][] processes = new Object[13][8];
-        public static String[] col = {"Name", "Memory", "State", "Arrival", "Counter", "Time Waiting"};
+        public static String[] col = {"Name", "Priority", "Memory", "State", "Arrival", "Counter", "Time Waiting"};
         public static JTable table;
 
         public void editPCBTable()
@@ -75,11 +76,12 @@ import javax.swing.JTable;
             {
                 prac.editTable(i);
                 processes[i][0] = prac.name;
-                processes[i][1] = prac.memory;
-                processes[i][2] = prac.state;
-                processes[i][3] = prac.arrival;
-                processes[i][4] = prac.counter;
-                processes[i][5] = prac.timeElapsed;
+                processes[i][1] = prac.priority;
+                processes[i][2] = prac.memory;
+                processes[i][3] = prac.state;
+                processes[i][4] = prac.arrival;
+                processes[i][5] = prac.counter;
+                processes[i][6] = prac.timeElapsed;
                 table.repaint();
             }
             for (int j = Scheduler.exec.getSize(); j < 12; j++)
