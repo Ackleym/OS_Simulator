@@ -161,8 +161,8 @@ import javax.swing.text.StyledDocument;
 
 
         public void print(String s, boolean trace, Color col){
-            Style style = comLine.addStyle("Style", null);
-            StyleConstants.setForeground(style, col);
+            Style addStyle = comLine.addStyle("Style", null);
+            StyleConstants.setForeground(addStyle, col);
 
             if (trace ){
                 Throwable w = new Throwable();
@@ -177,7 +177,7 @@ import javax.swing.text.StyledDocument;
 
 
             try{
-                styledoc.insertString(styledoc.getLength(), s, style);
+                styledoc.insertString(styledoc.getLength(), s, addStyle);
 
             }
             catch(Exception ex){}

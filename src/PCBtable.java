@@ -47,7 +47,7 @@ import javax.swing.JTable;
 
             public void editTable(int i) {
                 this.name = Scheduler.exec.get(i).getName();
-                this.priority = Scheduler.exec.get(i).getPriority();
+                this.memory = Scheduler.exec.get(i).getMemory();
                 this.state = Scheduler.exec.get(i).getState();
                 this.arrival = Scheduler.exec.get(i).getArrival();
                 this.timeElapsed = Scheduler.exec.get(i).getTimeElapsed();
@@ -59,7 +59,7 @@ import javax.swing.JTable;
 
         public static Table prac;
         public static Object[][] processes = new Object[13][8];
-        public static String[] col = {"name", "state", "priority", "memory", "arrival", "time elapsed", "counter"};
+        public static String[] col = {"Name", "Memory", "State", "Arrival", "Time Elapsed", "Time Waiting", "Counter"};
         public static JTable table;
 
         public void editPCBTable()
@@ -69,7 +69,7 @@ import javax.swing.JTable;
             {
                 prac.editTable(i);
                 processes[i][0] = prac.name;
-                processes[i][1] = prac.priority;
+                processes[i][1] = prac.memory;
                 processes[i][2] = prac.state;
                 processes[i][3] = prac.arrival;
                 processes[i][4] = prac.timeElapsed;
@@ -97,29 +97,8 @@ import javax.swing.JTable;
             processes = new Object[13][8];
 
 
-//                    {{"Process", "Web" , "New" , "High", "5", "arrival"
-//                    , "time"  },
-//                    {"Process1", prac.name , prac.state , prac.priority, prac.arrival, prac.timeElapsed
-//                            , prac.counter  },
-//                    {"Process2", "Web" , "New" , "High", "5", "arrival"
-//                            , "time"  },
-//                    {"Process3", "Web" , "New" , "High", "5", "arrival"
-//                            , "time"  },
-//                    {"Process4", "Web" , "New" , "High", "5", "arrival"
-//                            , "time"  },
-//                    {"Process5", "Web" , "New" , "High", "5", "arrival"
-//                            , "time"  },
-//                    {"Process6", "Web" , "New" , "High", "5", "arrival"
-//                            , "time"  },
-//                    {"Process7", "Web" , "New" , "High", "5", "arrival"
-//                            , "time"  },
-//                    {"Process8", "Web" , "New" , "High", "5", "arrival"
-//                            , "time"  }
-
             table = new JTable(processes, col);
-//            table.setPreferredScrollableViewportSize(new Dimension(800, 100));
 
-//            //Create the scroll pane and add the table to it.
             JScrollPane scrollPane = new JScrollPane(table);
 
             //Add the scroll pane to this panel.
