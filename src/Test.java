@@ -10,15 +10,15 @@ public class Test {
 //        CommandInterface comm = new CommandInterface();
 //        CPU cpu = new CPU();
 
-        os.comm.load("Test");
-        os.comm.load("WebBrowser");
-        os.comm.load("WordProcessor");
-        os.comm.load("VideoGame");
+//        os.comm.load("Test");
+//        os.comm.load("WebBrowser");
 //        os.comm.load("WordProcessor");
-        os.comm.mem();
-        os.scheduler.getExec().printPCB();
-        os.scheduler.getWait().printPCB();
-        os.exe(-1);
+//        os.comm.load("VideoGame");
+//        os.comm.load("WordProcessor");
+//        os.comm.mem();
+//        os.scheduler.getExec().printPCB();
+//        os.scheduler.getWait().printPCB();
+//        os.exe(-1);
 
 //        comm.load("Test");
 ////        os.scheduler.exec.printPCB(os.scheduler.exec.first);

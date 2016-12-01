@@ -17,6 +17,8 @@ public class PCB {
     int cpuBurst;
     int ioRequests;
     int pointer;
+    int cpuTimeNeeded;
+    int cpuTimeUsed;
 
 
     public PCB() {
@@ -30,6 +32,8 @@ public class PCB {
         this.cpuBurst = 0;
         this.ioRequests = 0;
         this.pointer = 0;
+        int cpuTimeNeeded = 0;
+        int cpuTimeUsed = 0;
     }
 
     public void setState(String state)
@@ -72,6 +76,18 @@ public class PCB {
 
     public int getCpuBurst() {
         return cpuBurst;
+    }
+
+    public int getIoRequests() {
+        return ioRequests;
+    }
+
+    public int getCpuTimeNeeded() {
+        return cpuTimeNeeded;
+    }
+
+    public int getCpuTimeUsed() {
+        return cpuTimeUsed;
     }
 
     public int getPointer() {

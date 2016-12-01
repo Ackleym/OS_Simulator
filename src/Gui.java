@@ -44,24 +44,11 @@ import javax.swing.text.StyledDocument;
         public StyledDocument styledoc;
 
         public static PCBtable newtable;
+        OS os;
 
         boolean t = false;
 
-        public Gui(){
-
-
-
-
-            //Table set up
-
-
-
-
-
-
-
-
-
+        public Gui(OS os){
 
             try {
 
@@ -69,6 +56,7 @@ import javax.swing.text.StyledDocument;
 
             }
             catch (Exception exception)  {}
+            this.os = os;
             GuiWindow = new JFrame();
             GuiWindow.setTitle("Gui");
             GuiWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -80,6 +68,9 @@ import javax.swing.text.StyledDocument;
             GuiWindow.setContentPane(newtable);
             GuiWindow.pack();
             GuiWindow.setVisible(true);
+
+
+            MemDisplay new_mem = new MemDisplay();
 
 
             comLine = new JTextPane();
@@ -139,6 +130,7 @@ import javax.swing.text.StyledDocument;
             GuiWindow.setResizable(false);
             GuiWindow.setVisible(true);
 
+            GuiWindow.add(new_mem, BorderLayout.EAST);
 
 
 
@@ -210,9 +202,17 @@ import javax.swing.text.StyledDocument;
 
 
                 else if (commands[0].equalsIgnoreCase("proc")){
-                    String help = "return unfinished processes and information, current process state, CPU time needed to finish,"
-                            + "Priority, CPU time used ";
-                    print_type_two(help, t, new Color(255,255,255));
+                    for (int i = 0; i < Scheduler.exec.getSize(); i++) {
+                        Scheduler.exec.printProc(i);
+                        String string = Scheduler.exec.proc;
+                        print_type_two(string, t, new Color(255, 255, 255));
+                    }
+
+                    for (int i = 0; i < Scheduler.wait.getSize(); i++) {
+                        Scheduler.wait.printProc(i);
+                        String string = Scheduler.exec.proc;
+                        print_type_two(string, t, new Color(255, 255, 255));
+                    }
 
                 }
                 else if(commands[0].equalsIgnoreCase("mem")){
@@ -221,18 +221,15 @@ import javax.swing.text.StyledDocument;
 
                 }
 
-                else if (commands[0].equalsIgnoreCase("load") ){
-                    String load = "loads prog/job files into simulator, includes allocation of programs PCB and memory space";
+                else if (commands[0].equalsIgnoreCase("load") && commands.length == 2){
+                    OS.comm.load(commands[1]);
 
-                    print_type_two(load, t, new Color(255,255,255));
 
 
                 }
 
                 else if (commands[0].equalsIgnoreCase("exe") ){
-                    String exe = "Let's simulation run on it's own, specifiy number of cycles to run before pausing. If none in ready queue, go to command interface";
-
-                    print_type_two(exe, t, new Color(255,255,255));
+                   os.exe(-1);
                 }
 
                 else if (commands[0].equalsIgnoreCase("exit") ){
@@ -255,26 +252,7 @@ import javax.swing.text.StyledDocument;
 
             }
 
-
         }
-
-
-        public static void main(String[] args){
-            new Gui();
-            //PCBgui table  = new PCBgui();
-
-            //makeAndDisplay();
-
-
-
-        }
-
-
-
-
-
-
-
 
     }
 

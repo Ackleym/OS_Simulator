@@ -3,13 +3,13 @@
  */
 import java.util.Random;
 
-public class OS {
+public class OS{
     CPU cpu;
-    CommandInterface comm;
+    public static CommandInterface comm;
     Scheduler scheduler;
     Clock clock;
     CacheMemory memory;
-    Gui gui = new Gui();
+    Gui gui;
     private int stopTime;
 
     public OS()
@@ -19,6 +19,7 @@ public class OS {
         scheduler = new Scheduler(clock);
         comm = new CommandInterface(scheduler);
         cpu = new CPU(clock, scheduler, comm);
+        gui = new Gui(this);
 
         stopTime = -1;
     }

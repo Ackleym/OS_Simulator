@@ -7,6 +7,7 @@ import java.util.ArrayList;
 public class ExecutionQueue {
 
     ArrayList<PCB> queue;
+    public static String proc;
 
     public ExecutionQueue() {
         queue = new ArrayList<>();
@@ -21,9 +22,9 @@ public class ExecutionQueue {
     }
 
     public void cycle() {
-        if(queue.size() < 2) {
+        if (queue.size() < 2) {
             return;
-        }else {
+        } else {
             PCB temp = queue.remove(0);
             queue.add(temp);
         }
@@ -43,13 +44,13 @@ public class ExecutionQueue {
     }
 
     public void printPCB() {
-        if(queue.isEmpty()) {
+        if (queue.isEmpty()) {
             System.out.println("Execution Queue is Empty");
             return;
         }
 
         System.out.println("Current Execution Queue Contents");
-        for (int i=0; i<queue.size(); i++) {
+        for (int i = 0; i < queue.size(); i++) {
             String name = queue.get(i).getName();
             int memory = queue.get(i).getMemory();
             int arrival = queue.get(i).getArrival();
@@ -70,4 +71,24 @@ public class ExecutionQueue {
         }
     }
 
-}
+    public void printProc(int i) {
+        if (queue.isEmpty()) {
+            System.out.println("Execution Queue is Empty");
+            return;
+        }
+
+            String name = queue.get(i).getName();
+            String state = queue.get(i).getState();
+            int cpuNeeded = queue.get(i).getCpuTimeNeeded();
+            int cpuUsed = queue.get(i).getCpuTimeUsed();
+            int ioRequests = queue.get(i).getIoRequests();
+
+            proc = ("Name: " + name +
+                    "\nState: " + state +
+                    "\nCPU Needed: " + cpuNeeded +
+                    "\nCPU Used: " + cpuUsed +
+                    "\nIO Requests: " + ioRequests +
+                    "\n");
+
+        }
+    }

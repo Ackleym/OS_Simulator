@@ -7,6 +7,7 @@ import java.util.ArrayList;
 public class WaitQueue
 {
     ArrayList<PCB> queue;
+    public static String proc;
 
     public WaitQueue() {
         queue = new ArrayList<>();
@@ -42,6 +43,27 @@ public class WaitQueue
                     "\nPriority: " + priority +
                     "\nCPU Burst: " + cpuNeeded + "\n");
         }
+    }
+
+    public void printProc(int i) {
+        if (queue.isEmpty()) {
+            System.out.println("Execution Queue is Empty");
+            return;
+        }
+
+        String name = queue.get(i).getName();
+        String state = queue.get(i).getState();
+        int cpuNeeded = queue.get(i).getCpuTimeNeeded();
+        int cpuUsed = queue.get(i).getCpuTimeUsed();
+        int ioRequests = queue.get(i).getIoRequests();
+
+        proc = ("Name: " + name +
+                "\nState: " + state +
+                "\nCPU Needed: " + cpuNeeded +
+                "\nCPU Used: " + cpuUsed +
+                "\nIO Requests: " + ioRequests +
+                "\n");
+
     }
 
     public PCB deQueue() {
