@@ -11,8 +11,9 @@ public class Test {
 //        CPU cpu = new CPU();
 
         os.comm.load("Test");
+        os.comm.load("WebBrowser");
         os.comm.load("WordProcessor");
-        os.comm.load("Test");
+        os.comm.load("VideoGame");
 //        os.comm.load("WordProcessor");
         os.comm.mem();
         os.scheduler.getExec().printPCB();

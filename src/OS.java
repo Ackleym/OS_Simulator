@@ -9,6 +9,7 @@ public class OS {
     Scheduler scheduler;
     Clock clock;
     CacheMemory memory;
+    Gui gui = new Gui();
     private int stopTime;
 
     public OS()
@@ -64,6 +65,12 @@ public class OS {
             cpu.detectPreemption();
 
             cpu.run();
+            gui.newtable.editPCBTable();
+
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+            }
 
             if (clock.getClock() == stopTime || scheduler.getExec().getSize() == 0) {
                 break;

@@ -5,10 +5,10 @@ import static java.lang.Integer.parseInt;
  */
 public class Scheduler {
 
-    private static ExecutionQueue exec;
-    private static WaitQueue wait;
-    private static EventQueue event;
-    private Clock clock;
+    public static ExecutionQueue exec;
+    public static WaitQueue wait;
+    public static EventQueue event;
+    public Clock clock;
 
     public Scheduler(Clock nclock)
     {
