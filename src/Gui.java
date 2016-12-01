@@ -18,6 +18,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.UIManager;
+import javax.swing.border.Border;
 import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
@@ -64,10 +65,10 @@ import javax.swing.text.StyledDocument;
 
             newtable = new PCBtable();
 
-            newtable.setOpaque(true);
-            GuiWindow.setContentPane(newtable);
-            GuiWindow.pack();
-            GuiWindow.setVisible(true);
+//            newtable.setOpaque(true);
+//            GuiWindow.setContentPane(newtable);
+//            GuiWindow.pack();
+//            GuiWindow.setVisible(true);
 
 
             MemDisplay new_mem = new MemDisplay();
@@ -125,12 +126,13 @@ import javax.swing.text.StyledDocument;
 
 
 
-            GuiWindow.setSize(1500, 500);
+            GuiWindow.setSize(1500, 1000);
             GuiWindow.setLocationRelativeTo(null);
             GuiWindow.setResizable(false);
             GuiWindow.setVisible(true);
 
             GuiWindow.add(new_mem, BorderLayout.EAST);
+            GuiWindow.add(newtable, BorderLayout.NORTH);
 
 
 

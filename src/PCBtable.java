@@ -98,7 +98,7 @@ import javax.swing.JTable;
 
 
             table = new JTable(processes, col);
-
+            table.setPreferredScrollableViewportSize(new Dimension(800,225));
             JScrollPane scrollPane = new JScrollPane(table);
 
             //Add the scroll pane to this panel.
