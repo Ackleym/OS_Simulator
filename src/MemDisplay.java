@@ -148,7 +148,6 @@ public class MemDisplay extends JPanel {
         {
             memory_table[8+j][0] = null;
             memory_table[8+j][1] = null;
-//            mem_Jtable.repaint();
         }
         mem_Jtable.repaint();
     }

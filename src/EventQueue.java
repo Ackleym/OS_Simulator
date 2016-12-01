@@ -34,6 +34,10 @@ public class EventQueue
         return queue.size();
     }
 
+    public void reset() {
+        queue.clear();
+    }
+
     public ArrayList<ECB> print() {
         ECB[] temp = queue.toArray(new ECB[queue.size()]);
         ArrayList<ECB> list = new ArrayList<ECB>(Arrays.asList(temp));

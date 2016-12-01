@@ -70,7 +70,7 @@ public class Scheduler {
             {
                 if (wait.getFirst().getMemory() <= CacheMemory.memoryRemaining) {
                     PCB temp = wait.deQueue();
-                    temp.setState("Ready");
+                    temp.setState("Wait");
                     temp.arrival = clock.getClock();
                     exec.enQueue(temp);
                     CacheMemory.memoryRemaining = CacheMemory.memoryRemaining - temp.memory;
@@ -120,5 +120,11 @@ public class Scheduler {
 
     public WaitQueue getNewQueue() {
         return  newQueue;
+    }
+
+    public void reset() {
+        exec.reset();
+        wait.reset();
+        newQueue.reset();
     }
 }

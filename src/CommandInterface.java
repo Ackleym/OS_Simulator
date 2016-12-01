@@ -28,22 +28,23 @@ public class CommandInterface
 //        getIORequests();
     }
 
-    public void mem()
+    public String mem()
     {
         String mem = ("\nMemory Remaining: " + CacheMemory.memoryRemaining);
         mem = mem + ("\nMemory Usage:");
         if(scheduler.getExec().getSize() < 1)
         {
             mem = mem + ("\nNo Processes in Memory");
-            return;
+            return mem;
         }
 
         for (int i = 0; i < scheduler.getExec().getSize(); i++)
         {
-            mem = mem + (scheduler.getExec().get(i).getName() + ": " +
+            mem = mem + "\n" + (scheduler.getExec().get(i).getName() + ": " +
                                 scheduler.getExec().get(i).getMemory());
         }
         System.out.println(mem);
+        return mem;
     }
 
     public void load(String job)

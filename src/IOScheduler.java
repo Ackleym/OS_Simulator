@@ -40,4 +40,8 @@ public class IOScheduler
         return eventQueue;
     }
 
+    public void reset() {
+        eventQueue.reset();
+    }
+
 }

@@ -41,6 +41,10 @@ public class ExecutionQueue {
         return queue.size();
     }
 
+    public void reset() {
+        queue.clear();
+    }
+
     public void printPCB() {
         if (queue.isEmpty()) {
             System.out.println("Execution Queue is Empty");

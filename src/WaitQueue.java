@@ -94,4 +94,8 @@ public class WaitQueue
     public int getSize() {
         return queue.size();
     }
+
+    public void reset() {
+        queue.clear();
+    }
 }
