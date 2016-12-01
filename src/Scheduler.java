@@ -124,4 +124,10 @@ public class Scheduler {
     public WaitQueue getNewQueue() {
         return  newQueue;
     }
+
+    public void reset() {
+        exec.reset();
+        wait.reset();
+        newQueue.reset();
+    }
 }

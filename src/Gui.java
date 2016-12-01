@@ -206,14 +206,8 @@ import javax.swing.text.StyledDocument;
                 if(commands[0].equalsIgnoreCase("reset"))
                 {
 
-                    while(CacheMemory.memoryRemaining < CacheMemory.totalMemory){
-                        os.scheduler.getExec().getFirst().setState("Exit");
-                        os.scheduler.removePCB();
-                    }
-
-                    for(int i=0; i < os.cpu.interruptProcessor.getIoScheduler().getEventQueue().getSize(); i++){
-                        os.cpu.interruptProcessor.removeEvent();
-                    }
+                    os.scheduler.reset();
+                    os.cpu.getInterruptProcessor().getIoScheduler().reset();
 
                     os.cpu.interrupt = "False";
                     os.cpu.cycle = 0;
