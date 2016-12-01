@@ -51,13 +51,13 @@ public class OS {
             clock.execute();
 
             Random random = new Random();
-            if (random.nextInt(100) == 99) {
-                ECB ecb = new ECB();
-                scheduler.insertECB(ecb, "System",
-                                    "Random Process",
-                                    random.nextInt(10) + 1,
-                                    random.nextInt(26) + 25);
-            }
+//            if (random.nextInt(500) == 499) {
+//                ECB ecb = new ECB();
+//                scheduler.insertECB(ecb, "System",
+//                                    "Random Process",
+//                                    random.nextInt(10) + 1,
+//                                    random.nextInt(26) + 25);
+//            }
 
             cpu.detectInterrupt();
 
