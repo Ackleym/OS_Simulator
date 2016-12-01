@@ -6,6 +6,7 @@ public class Test {
     public static void main(String[] args)
     {
         OS os = new OS();
+        os.run();
 //        Scheduler scheduler = new Scheduler();
 //        CommandInterface comm = new CommandInterface();
 //        CPU cpu = new CPU();

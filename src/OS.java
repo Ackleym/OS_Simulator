@@ -10,7 +10,8 @@ public class OS{
     Clock clock;
     CacheMemory memory;
     Gui gui;
-    private int stopTime;
+    int stopTime;
+    boolean execute;
 
     public OS()
     {
@@ -18,10 +19,11 @@ public class OS{
         clock = new Clock();
         scheduler = new Scheduler(clock);
         comm = new CommandInterface(scheduler);
-        cpu = new CPU(clock, scheduler, comm);
         gui = new Gui(this);
+        cpu = new CPU(clock, scheduler, comm, gui);
 
         stopTime = -1;
+        execute = false;
     }
 
 //    public OS(int cycles)
@@ -35,15 +37,14 @@ public class OS{
 //    }
 
     public void run() {
-        while(true) {
-            int select = -1;
-//            select = Input from Called Comm
-
-            if (select != 0) {
-                stopTime = clock.getClock() + select;
-                exe(stopTime);
-            } else {
-                return;
+//        System.out.println("Hi");
+        while(true){
+            try {
+                Thread.sleep(1);
+            } catch (InterruptedException e) {
+            }
+            if(execute){
+                exe(stopTime + clock.getClock());
             }
         }
     }
@@ -84,6 +85,8 @@ public class OS{
             }
 
         }
+        execute = false;
+        stopTime = -1;
         System.out.println("\n\nOS is Finished\nClock: " + clock.getClock());
     }
 

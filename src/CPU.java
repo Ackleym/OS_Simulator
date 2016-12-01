@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.util.ArrayList;
 
 import static java.lang.Integer.parseInt;
@@ -14,13 +15,15 @@ public class CPU {
     private static final int cycleMax = 30;
     Scheduler scheduler;
     CommandInterface comm;
+    Gui gui;
     private int interrupt;
 
-    public CPU(Clock nclock, Scheduler nscheduler, CommandInterface ncomm) {
+    public CPU(Clock nclock, Scheduler nscheduler, CommandInterface ncomm, Gui gui) {
         clock = nclock;
         scheduler = nscheduler;
         cycle = 0;
         comm = new CommandInterface(scheduler);
+        this.gui = gui;
         interrupt = 0;
     }
 
@@ -148,25 +151,10 @@ public class CPU {
         }
 
         if(command.equalsIgnoreCase("Out")){
-            String output = "";
-            String temp;
-
             cpuPCB.setPointer(cpuPCB.getPointer() + 1);
-            temp = cpuPCB.getInstructions().get(cpuPCB.getPointer());
-            output = output + temp;
-            while(true) {
-                cpuPCB.setPointer(cpuPCB.getPointer() + 1);
-                temp = cpuPCB.getInstructions().get(cpuPCB.getPointer());
-                output = output + " " + temp;
-
-                if(temp.contains("'")) {
-                    break;
-                }
-            }
-            cpuPCB.setPointer(cpuPCB.getPointer() + 1);
-
-            output = output.substring(1, output.length() - 1);
-            System.out.println(command + ": " + output);
+            String output = scheduler.getExec().printProc(0);
+            gui.print_type_two(output, true, Color.WHITE);
+            System.out.println("Out");
         }
 
         if(command.equalsIgnoreCase("IO")) {

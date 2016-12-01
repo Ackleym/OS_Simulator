@@ -45,6 +45,7 @@ import javax.swing.text.StyledDocument;
         public StyledDocument styledoc;
 
         public static PCBtable newtable;
+        int stopTime;
         OS os;
 
         boolean t = false;
@@ -58,6 +59,7 @@ import javax.swing.text.StyledDocument;
             }
             catch (Exception exception)  {}
             this.os = os;
+            stopTime = 0;
             GuiWindow = new JFrame();
             GuiWindow.setTitle("Gui");
             GuiWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -204,12 +206,14 @@ import javax.swing.text.StyledDocument;
 
 
                 else if (commands[0].equalsIgnoreCase("proc")){
+                    print_type_two("  -- Execution Queue Contents --", t, Color.WHITE);
                     for (int i = 0; i < Scheduler.exec.getSize(); i++) {
                         Scheduler.exec.printProc(i);
                         String string = Scheduler.exec.proc;
                         print_type_two(string, t, new Color(255, 255, 255));
                     }
 
+                    print_type_two("  --  Wait Queue Contents --", t, Color.WHITE);
                     for (int i = 0; i < Scheduler.wait.getSize(); i++) {
                         Scheduler.wait.printProc(i);
                         String string = Scheduler.exec.proc;
@@ -226,12 +230,18 @@ import javax.swing.text.StyledDocument;
                 else if (commands[0].equalsIgnoreCase("load") && commands.length == 2){
                     OS.comm.load(commands[1]);
 
-
+                    newtable.editPCBTable();
 
                 }
 
+                else if (commands[0].equalsIgnoreCase("exe") && commands.length == 2) {
+                    os.stopTime = Integer.parseInt(commands[1]);
+                    os.execute = true;
+                }
+
                 else if (commands[0].equalsIgnoreCase("exe") ){
-                   os.exe(-1);
+                    os.stopTime = -1;
+                    os.execute = true;
                 }
 
                 else if (commands[0].equalsIgnoreCase("exit") ){

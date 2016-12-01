@@ -71,10 +71,10 @@ public class ExecutionQueue {
         }
     }
 
-    public void printProc(int i) {
+    public String printProc(int i) {
         if (queue.isEmpty()) {
             System.out.println("Execution Queue is Empty");
-            return;
+            return "";
         }
 
             String name = queue.get(i).getName();
@@ -90,5 +90,6 @@ public class ExecutionQueue {
                     "\nIO Requests: " + ioRequests +
                     "\n");
 
+            return proc;
         }
     }
