@@ -92,6 +92,7 @@ import javax.swing.JTable;
                 processes[j][3] = null;
                 processes[j][4] = null;
                 processes[j][5] = null;
+                processes[j][6] = null;
                 table.repaint();
             }
         }

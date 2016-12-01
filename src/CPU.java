@@ -135,6 +135,12 @@ public class CPU {
                 return;
             }
 
+            if (Scheduler.exec.getSize() > 0) {
+                for (int i = 0; i < Scheduler.exec.getSize(); i++) {
+                    scheduler.getExec().get(i).incrementTimeElapsed();
+                }
+            }
+
             return;
         }
 
