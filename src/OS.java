@@ -67,6 +67,7 @@ public class OS{
 
             cpu.run();
             gui.newtable.editPCBTable();
+            gui.new_mem.editMemTable();
 
             try {
                 Thread.sleep(100);

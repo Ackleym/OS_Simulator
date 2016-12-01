@@ -48,6 +48,7 @@ import javax.swing.text.StyledDocument;
         public static String jobs[] = {"MediaPlayer", "PhotoEditing", "Test", "VideoGame", "VirusScan", "WebBrowser",
         "WordProcessor"};
         public static PCBtable newtable;
+        MemDisplay new_mem;
         int stopTime;
         OS os;
 
@@ -68,7 +69,7 @@ import javax.swing.text.StyledDocument;
             GuiWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 
-            newtable = new PCBtable();
+            newtable = new PCBtable(os);
 
 //            newtable.setOpaque(true);
 //            GuiWindow.setContentPane(newtable);
@@ -76,7 +77,7 @@ import javax.swing.text.StyledDocument;
 //            GuiWindow.setVisible(true);
 
 
-            MemDisplay new_mem = new MemDisplay();
+            new_mem = new MemDisplay(os);
 
 
             comLine = new JTextPane();
@@ -138,7 +139,6 @@ import javax.swing.text.StyledDocument;
 
             GuiWindow.add(new_mem, BorderLayout.EAST);
             GuiWindow.add(newtable, BorderLayout.NORTH);
-
 
 
         }
@@ -204,22 +204,40 @@ import javax.swing.text.StyledDocument;
             try {
                 if(commands[0].equalsIgnoreCase("reset"))
                 {
-                    styledoc.remove(0,styledoc.getLength());
+
+                    while(CacheMemory.memoryRemaining < CacheMemory.totalMemory){
+                        os.scheduler.getExec().getFirst().setState("Exit");
+                        os.scheduler.removePCB();
+                    }
+
+                    for(int i=0; i < os.scheduler.getEvent().getSize(); i++){
+                        os.scheduler.removeECB();
+                    }
+
+                    os.cpu.interrupt = 0;
+                    os.cpu.cycle = 0;
+                    os.clock.reset();
+
+                    newtable.editPCBTable();
+                    new_mem.editMemTable();
+
+//                    styledoc.remove(0,styledoc.getLength());
                 }
 
 
                 else if (commands[0].equalsIgnoreCase("proc")){
                     print_type_two("  -- Execution Queue Contents --", t, Color.WHITE);
-                    for (int i = 0; i < Scheduler.exec.getSize(); i++) {
-                        Scheduler.exec.printProc(i);
-                        String string = Scheduler.exec.proc;
+                    for (int i = 0; i < os.scheduler.getExec().getSize(); i++) {
+                        os.scheduler.getExec().printProc(i);
+                        String string = os.scheduler.getExec().proc;
                         print_type_two(string, t, new Color(255, 255, 255));
+                        new_mem.editMemTable();
                     }
 
                     print_type_two("  --  Wait Queue Contents --", t, Color.WHITE);
-                    for (int i = 0; i < Scheduler.wait.getSize(); i++) {
-                        Scheduler.wait.printProc(i);
-                        String string = Scheduler.exec.proc;
+                    for (int i = 0; i < os.scheduler.getWait().getSize(); i++) {
+                        os.scheduler.getWait().printProc(i);
+                        String string = os.scheduler.getWait().proc;
                         print_type_two(string, t, new Color(255, 255, 255));
                     }
 
@@ -236,6 +254,8 @@ import javax.swing.text.StyledDocument;
                     int rand = random.nextInt(6);
                     OS.comm.load(jobs[rand]);
                     newtable.editPCBTable();
+                    new_mem.editMemTable();
+
 
                 }
 
@@ -243,6 +263,7 @@ import javax.swing.text.StyledDocument;
                     OS.comm.load(commands[1]);
 
                     newtable.editPCBTable();
+                    new_mem.editMemTable();
 
                 }
 

@@ -11,12 +11,12 @@ import java.util.Random;
 
 public class CPU {
     Clock clock;
-    private int cycle;
+    int cycle;
     private static final int cycleMax = 30;
     Scheduler scheduler;
     CommandInterface comm;
     Gui gui;
-    private int interrupt;
+    int interrupt;
 
     public CPU(Clock nclock, Scheduler nscheduler, CommandInterface ncomm, Gui gui) {
         clock = nclock;
