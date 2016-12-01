@@ -12,19 +12,17 @@ import java.util.Random;
 public class CPU {
     Clock clock;
     int cycle;
-    private static final int cycleMax = 30;
+    private final int cycleMax = 30;
     Scheduler scheduler;
-    CommandInterface comm;
     Gui gui;
     InterruptProcessor interruptProcessor;
     String interrupt;
     String interruptType;
 
-    public CPU(Clock nclock, Scheduler nscheduler, CommandInterface ncomm, Gui gui) {
+    public CPU(Clock nclock, Scheduler nscheduler, Gui gui) {
         clock = nclock;
         scheduler = nscheduler;
         cycle = 0;
-        comm = new CommandInterface(scheduler);
         this.gui = gui;
         interruptProcessor = new InterruptProcessor();
         interrupt = "False";
@@ -34,6 +32,18 @@ public class CPU {
     public InterruptProcessor getInterruptProcessor()
     {
         return interruptProcessor;
+    }
+
+    public Scheduler getScheduler() {
+        return scheduler;
+    }
+
+    public void setCycle(int cycle) {
+        this.cycle = cycle;
+    }
+
+    public void setInterrupt(String interrupt) {
+        this.interrupt = interrupt;
     }
 
     public void detectInterrupt() {
@@ -84,7 +94,6 @@ public class CPU {
         }
 
         if(scheduler.getExec().get(0).getState().equalsIgnoreCase("Exit")) {
-            comm.mem();
             scheduler.getExec().printPCB();
             scheduler.getWait().printPCB();
             scheduler.removePCB();
@@ -95,7 +104,6 @@ public class CPU {
 
             System.out.println("\nProcess Removed Successfully\n");
 
-            comm.mem();
             scheduler.getExec().printPCB();
             scheduler.getWait().printPCB();
             cycle = 0;
@@ -131,8 +139,8 @@ public class CPU {
                 return;
             }
 
-            if (Scheduler.exec.getSize() > 0) {
-                for (int i = 0; i < Scheduler.exec.getSize(); i++) {
+            if (scheduler.getExec().getSize() > 0) {
+                for (int i = 0; i < scheduler.getExec().getSize(); i++) {
                     scheduler.getExec().get(i).incrementTimeElapsed();
                 }
             }
@@ -157,8 +165,8 @@ public class CPU {
         cpuPCB.decrementCpuTimeNeeded();
         cpuPCB.incrementCpuTimeUsed();
 
-        if (Scheduler.exec.getSize() > 1) {
-            for (int i = 1; i < Scheduler.exec.getSize(); i++) {
+        if (scheduler.getExec().getSize() > 1) {
+            for (int i = 1; i < scheduler.getExec().getSize(); i++) {
                 scheduler.getExec().get(i).incrementTimeElapsed();
             }
         }

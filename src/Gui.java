@@ -45,12 +45,13 @@ import javax.swing.text.StyledDocument;
 
         public StyledDocument styledoc;
 
-        public static String jobs[] = {"MediaPlayer", "PhotoEditing", "Test", "VideoGame", "VirusScan", "WebBrowser",
+        public String jobs[] = {"MediaPlayer", "PhotoEditing", "Test", "VideoGame", "VirusScan", "WebBrowser",
         "WordProcessor"};
-        public static PCBtable newtable;
+        public PCBtable newtable;
         MemDisplay new_mem;
         int stopTime;
         OS os;
+        ReadIn read;
 
         boolean t = false;
 
@@ -209,8 +210,8 @@ import javax.swing.text.StyledDocument;
                     os.scheduler.reset();
                     os.cpu.getInterruptProcessor().getIoScheduler().reset();
 
-                    os.cpu.interrupt = "False";
-                    os.cpu.cycle = 0;
+                    os.cpu.setInterrupt("False");
+                    os.cpu.setCycle(0);
                     os.clock.reset();
                     CacheMemory.memoryRemaining = CacheMemory.totalMemory;
 
@@ -236,9 +237,9 @@ import javax.swing.text.StyledDocument;
 
 
                     print_type_two("\n\n-------Wait Queue Contents--------", t, Color.WHITE);
-                    for (int i = 0; i < Scheduler.wait.getSize(); i++) {
-                        Scheduler.wait.waitProc(i);
-                        String string = Scheduler.wait.proc;
+                    for (int i = 0; i < os.scheduler.getWait().getSize(); i++) {
+                        os.scheduler.getWait().waitProc(i);
+                        String string = os.scheduler.getWait().proc;
                         print_type_two(string, t, new Color(255, 255, 255));
                     }
                     if(os.scheduler.getWait().getSize() < 1) {
@@ -248,9 +249,9 @@ import javax.swing.text.StyledDocument;
 
 
                     print_type_two("\n\n--------New Queue Contents--------", t, Color.WHITE);
-                    for (int i = 0; i < Scheduler.newQueue.getSize(); i++) {
-                        Scheduler.newQueue.newProc(i);
-                        String string = Scheduler.wait.proc;
+                    for (int i = 0; i < os.scheduler.getNewQueue().getSize(); i++) {
+                        os.scheduler.getNewQueue().newProc(i);
+                        String string = os.scheduler.getNewQueue().proc;
                         print_type_two(string, t, new Color(255, 255, 255));
                     }
                     if(os.scheduler.getNewQueue().getSize() < 1) {
@@ -261,7 +262,19 @@ import javax.swing.text.StyledDocument;
 
                 }
                 else if(commands[0].equalsIgnoreCase("mem")){
-                    String mem = os.comm.mem();
+
+                    String mem = ("\nMemory Remaining: " + CacheMemory.memoryRemaining);
+                    mem = mem + ("\nMemory Usage:");
+                    if(os.scheduler.getExec().getSize() < 1)
+                    {
+                        mem = mem + ("\nNo Processes in Memory");
+                    } else {
+                        for (int i = 0; i < os.scheduler.getExec().getSize(); i++) {
+                            mem = mem + "\n" + (os.scheduler.getExec().get(i).getName() + ": " +
+                                    os.scheduler.getExec().get(i).getMemory());
+                        }
+                    }
+
                     print_type_two(mem, t, new Color(255,255,255));
 
                 }
@@ -270,29 +283,56 @@ import javax.swing.text.StyledDocument;
 
                     Random random = new Random();
                     int rand = random.nextInt(6);
-                    OS.comm.load(jobs[rand]);
+
+                    String job = jobs[rand];
+
+                    read = new ReadIn();
+                    read.openFile(job);
+                    read.readFile(job);
+                    read.closeFile();
+                    PCB pcb = new PCB();
+                    pcb.setName(read.testArray.get(0));
+                    pcb.setPriority(Integer.parseInt(read.testArray.get(1)));
+                    pcb.setState("New");
+                    os.scheduler.newProcess(pcb);
+
                     newtable.editPCBTable();
                     new_mem.editMemTable(os);
 
-
+                    print_type_two("\nSUCCESS\n", t, Color.WHITE);
                 }
 
                 else if (commands[0].equalsIgnoreCase("load") && commands.length == 2){
-                    OS.comm.load(commands[1]);
+                    String job = commands[1];
+
+                    read = new ReadIn();
+                    read.openFile(job);
+                    read.readFile(job);
+                    read.closeFile();
+                    PCB pcb = new PCB();
+                    pcb.setName(read.testArray.get(0));
+                    pcb.setPriority(Integer.parseInt(read.testArray.get(1)));
+                    pcb.setState("New");
+                    os.scheduler.newProcess(pcb);
 
                     newtable.editPCBTable();
                     new_mem.editMemTable(os);
 
+                    print_type_two("\nSUCCESS\n", t, Color.WHITE);
                 }
 
                 else if (commands[0].equalsIgnoreCase("exe") && commands.length == 2) {
-                    os.stopTime = Integer.parseInt(commands[1]);
+                    os.stopTime = Integer.parseInt(commands[1]) + os.clock.getClock();
                     os.execute = true;
                 }
 
                 else if (commands[0].equalsIgnoreCase("exe") ){
-                    os.stopTime = -1;
+                    os.stopTime = Integer.MAX_VALUE;
                     os.execute = true;
+                }
+
+                else if (commands[0].equalsIgnoreCase("stop")) {
+                    os.stopTime = os.clock.getClock();
                 }
 
                 else if (commands[0].equalsIgnoreCase("exit") ){
@@ -303,7 +343,7 @@ import javax.swing.text.StyledDocument;
                 }
 
                 else if (commands[0].equalsIgnoreCase("help")) {
-                    String text = "\n---HELP---\nProc\nMem\nLoad\nExe\nReset\nExit\n----------\n\n\n";
+                    String text = "\n---HELP---\nProc\nMem\nLoad\nExe\nReset\nStop\nExit\n----------\n\n\n";
 
                     print_type_two(text, t, new Color(255,255,255));
                 }

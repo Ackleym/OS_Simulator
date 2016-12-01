@@ -5,7 +5,6 @@ import java.util.Random;
 
 public class OS{
     CPU cpu;
-    public static CommandInterface comm;
     Scheduler scheduler;
     Clock clock;
     CacheMemory memory;
@@ -18,9 +17,8 @@ public class OS{
         memory = new CacheMemory();
         clock = new Clock();
         scheduler = new Scheduler(clock);
-        comm = new CommandInterface(scheduler);
         gui = new Gui(this);
-        cpu = new CPU(clock, scheduler, comm, gui);
+        cpu = new CPU(clock, scheduler, gui);
 
         stopTime = -1;
         execute = false;
@@ -34,17 +32,17 @@ public class OS{
             } catch (InterruptedException e) {
             }
             if(execute){
-                exe(stopTime + clock.getClock());
+                exe();
             }
         }
     }
 
-    public void exe(int stopTime) {
+    public void exe() {
         while(true) {
             clock.execute();
 
             Random random = new Random();
-            if (random.nextInt(75) == 1) {
+            if (random.nextInt(250) == 1) {
                 cpu.getInterruptProcessor().addEvent("Random Process", "System", random.nextInt(10));
             }
 
@@ -61,7 +59,7 @@ public class OS{
             } catch (InterruptedException e) {
             }
 
-            if (clock.getClock() == stopTime || (scheduler.getExec().getSize() == 0) &&
+            if (clock.getClock() >= stopTime || (scheduler.getExec().getSize() == 0) &&
                     cpu.getInterruptProcessor().getIoScheduler().getEventQueue().getSize() == 0 &&
                     scheduler.getNewQueue().getSize() == 0) {
                 break;
