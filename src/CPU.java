@@ -115,10 +115,6 @@ public class CPU {
     }
 
     public void run() {
-        if (scheduler.getNewQueue().getSize() > 0 && cycle == 0) {
-            scheduler.insertPCB();
-            scheduler.getNewQueue().deQueue();
-        }
 
         if(!interrupt.equalsIgnoreCase("False")){
 
@@ -142,6 +138,11 @@ public class CPU {
             }
 
             return;
+        }
+
+        if (scheduler.getNewQueue().getSize() > 0 && cycle == 0) {
+            scheduler.insertPCB();
+            scheduler.getNewQueue().deQueue();
         }
 
         if(scheduler.getExec().getSize() == 0) {
