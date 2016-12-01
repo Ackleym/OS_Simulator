@@ -45,9 +45,9 @@ public class WaitQueue
         }
     }
 
-    public void printProc(int i) {
+    public void waitProc(int i) {
         if (queue.isEmpty()) {
-            System.out.println("Execution Queue is Empty");
+            System.out.println("Wait Queue is Empty");
             return;
         }
 
@@ -62,6 +62,21 @@ public class WaitQueue
                 "\nCPU Needed: " + cpuNeeded +
                 "\nCPU Used: " + cpuUsed +
                 "\nIO Requests: " + ioRequests +
+                "\n");
+
+    }
+
+    public void newProc(int i) {
+        if (queue.isEmpty()) {
+            System.out.println("Wait Queue is Empty");
+            return;
+        }
+
+        String name = queue.get(i).getName();
+        String state = queue.get(i).getState();
+
+        proc = ("Name: " + name +
+                "\nState: " + state +
                 "\n");
 
     }

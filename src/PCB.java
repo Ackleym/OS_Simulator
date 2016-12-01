@@ -136,6 +136,10 @@ public class PCB {
         this.counter = counter;
     }
 
+    public void setCpuTimeNeeded(int time) {
+        this.cpuTimeNeeded = time;
+    }
+
     public void setPriority(int priority)
     {
         this.priority = priority;

@@ -63,10 +63,10 @@ import javax.swing.JTable;
 
         }
 
-        Table prac;
-        Object[][] processes = new Object[13][8];
-        String[] col = {"Name", "Memory", "State", "Arrival", "Counter", "Time Elapsed", "Cycle", "Clock"};
-        JTable table;
+        public static Table prac;
+        public static Object[][] processes = new Object[13][8];
+        public static String[] col = {"Name", "Memory", "State", "Arrival", "Counter", "Time Waiting"};
+        public static JTable table;
 
         public void editPCBTable()
         {
@@ -80,8 +80,6 @@ import javax.swing.JTable;
                 processes[i][3] = prac.arrival;
                 processes[i][4] = prac.counter;
                 processes[i][5] = prac.timeElapsed;
-                processes[i][6] = prac.cycle;
-                processes[i][7] = prac.clock;
                 table.repaint();
             }
             for (int j = Scheduler.exec.getSize(); j < 12; j++)
@@ -92,8 +90,6 @@ import javax.swing.JTable;
                 processes[j][3] = null;
                 processes[j][4] = null;
                 processes[j][5] = null;
-                processes[j][6] = null;
-                processes[j][7] = null;
                 table.repaint();
             }
         }

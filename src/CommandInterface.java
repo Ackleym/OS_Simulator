@@ -64,7 +64,8 @@ public class CommandInterface
         read.closeFile();
         PCB pcb = new PCB();
         pcb.setName(read.testArray.get(0));
-        scheduler.insertPCB(pcb);
+        pcb.setState("New");
+        scheduler.newProcess(pcb);
 
 
     }
