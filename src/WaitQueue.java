@@ -47,7 +47,7 @@ public class WaitQueue
 
     public void printProc(int i) {
         if (queue.isEmpty()) {
-            System.out.println("Execution Queue is Empty");
+            System.out.println("Wait Queue is Empty");
             return;
         }
 

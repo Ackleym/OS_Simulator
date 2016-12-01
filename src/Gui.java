@@ -205,6 +205,12 @@ import javax.swing.text.StyledDocument;
                 if(commands[0].equalsIgnoreCase("reset"))
                 {
                     styledoc.remove(0,styledoc.getLength());
+                    for (int i = 0; i < Scheduler.exec.getSize(); i++)
+                    Scheduler.exec.deQueue();
+                    for (int i = 0; i < Scheduler.wait.getSize(); i++)
+                    Scheduler.wait.deQueue();
+
+                    newtable.editPCBTable();
                 }
 
 
@@ -219,7 +225,7 @@ import javax.swing.text.StyledDocument;
                     print_type_two("  --  Wait Queue Contents --", t, Color.WHITE);
                     for (int i = 0; i < Scheduler.wait.getSize(); i++) {
                         Scheduler.wait.printProc(i);
-                        String string = Scheduler.exec.proc;
+                        String string = Scheduler.wait.proc;
                         print_type_two(string, t, new Color(255, 255, 255));
                     }
 

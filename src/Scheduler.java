@@ -7,6 +7,7 @@ public class Scheduler {
 
     public static ExecutionQueue exec;
     public static WaitQueue wait;
+    public static WaitQueue newQueue;
     public static EventQueue event;
     public Clock clock;
 
@@ -28,7 +29,7 @@ public class Scheduler {
         read.readFile(pcb.name + "Proc");
         read.closeFile();
         pcb.setMemory(parseInt(read.testArray.get(0)));
-        pcb.setCpuBurst(parseInt(read.testArray.get(1)));
+        pcb.setCpuTimeNeeded(parseInt(read.testArray.get(1)));
 
         read.testArray.remove(0);
         read.testArray.remove(0);
@@ -42,7 +43,7 @@ public class Scheduler {
 
         else
         {
-            pcb.setState("Ready");
+            pcb.setState("Wait");
             exec.enQueue(pcb);
             CacheMemory.memoryRemaining = CacheMemory.memoryRemaining - pcb.getMemory();
             pcb.setArrival(clock.getClock());

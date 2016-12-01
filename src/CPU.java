@@ -64,7 +64,7 @@ public class CPU {
         }
 
         if(scheduler.getExec().get(0).getState().equalsIgnoreCase("Wait")) {
-            scheduler.getExec().get(0).setState("Ready");
+            scheduler.getExec().get(0).setState("Wait");
             scheduler.cycle();
             scheduler.getExec().get(0).setState("Run");
             cycle = 0;
@@ -94,7 +94,7 @@ public class CPU {
 
         if(cycle == cycleMax)
         {
-            scheduler.getExec().get(0).setState("Ready");
+            scheduler.getExec().get(0).setState("Wait");
             scheduler.cycle();
             scheduler.getExec().get(0).setState("Run");
 
@@ -126,11 +126,17 @@ public class CPU {
         PCB cpuPCB = scheduler.getExec().getFirst();
         String command = cpuPCB.getInstructions().get(cpuPCB.getPointer());
         System.out.println("\n" + cpuPCB.getName() + "\n" + cpuPCB.getState());
-        cpuPCB.setTimeElapsed(cpuPCB.getTimeElapsed() + 1);
         cycle++;
 
         if (command.equalsIgnoreCase("Calculate")) {
-            cpuPCB.setCounter(cpuPCB.getCounter() + 1);
+            cpuPCB.timeElapsed = 0;
+            cpuPCB.counter++;
+            cpuPCB.cpuTimeNeeded--;
+            cpuPCB.cpuTimeUsed++;
+            if (Scheduler.exec.getSize() > 1)
+            for (int i = 1; i < Scheduler.exec.getSize(); i++) {
+                Scheduler.exec.get(i).timeElapsed++;
+            }
             System.out.println(command + ": " + cpuPCB.getCounter());
 
             if (cpuPCB.counter == parseInt(cpuPCB.getInstructions().get(cpuPCB.getPointer() + 1))) {
@@ -164,6 +170,7 @@ public class CPU {
             ECB ecb = new ECB();
             scheduler.insertECB(ecb, name, cpuPCB.getName(), priority);
 
+            cpuPCB.ioRequests++;
             cpuPCB.setPointer(cpuPCB.getPointer() + 3);
         }
 
