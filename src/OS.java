@@ -44,7 +44,7 @@ public class OS{
             clock.execute();
 
             Random random = new Random();
-            if (random.nextInt(100) == 1) {
+            if (random.nextInt(250) == 1) {
                 cpu.getInterruptProcessor().addEvent("Random Process", "System", random.nextInt(10));
             }
 
@@ -69,6 +69,8 @@ public class OS{
 
         }
         execute = false;
+        gui.memory.add(256.0);
+        gui.editGraph();
         System.out.println("\n\nOS is Finished\nClock: " + clock.getClock());
     }
 

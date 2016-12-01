@@ -1,38 +1,28 @@
 
-/**
- *
- * @author Najia13
- */
 
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.UIManager;
-import javax.swing.border.Border;
 import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
+import static jdk.nashorn.internal.runtime.JSType.toDouble;
 
 
-
-
-
-
-
-
-    public class Gui extends JPanel {
+public class Gui extends JPanel {
 
 
 
@@ -42,7 +32,6 @@ import javax.swing.text.StyledDocument;
         public JTextPane comLine;
         public JTextField user;
         public JScrollPane scroll;
-
         public StyledDocument styledoc;
 
         public static String jobs[] = {"MediaPlayer", "PhotoEditing", "Test", "VideoGame", "VirusScan", "WebBrowser",
@@ -51,6 +40,8 @@ import javax.swing.text.StyledDocument;
         MemDisplay new_mem;
         int stopTime;
         OS os;
+        public static List<Double> memory = new ArrayList<Double>();
+        public static Graph mem_graph = new Graph(memory);
 
         boolean t = false;
 
@@ -68,15 +59,8 @@ import javax.swing.text.StyledDocument;
             GuiWindow.setTitle("Gui");
             GuiWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-
+            mem_graph = new Graph(memory);
             newtable = new PCBtable(os);
-
-//            newtable.setOpaque(true);
-//            GuiWindow.setContentPane(newtable);
-//            GuiWindow.pack();
-//            GuiWindow.setVisible(true);
-
-
             new_mem = new MemDisplay(os);
 
 
@@ -140,6 +124,12 @@ import javax.swing.text.StyledDocument;
             GuiWindow.add(new_mem, BorderLayout.EAST);
             GuiWindow.add(newtable, BorderLayout.NORTH);
 
+            memory.add(256.0);
+
+            mem_graph = new Graph(memory);
+            mem_graph.setPreferredSize(new Dimension(400, 600));
+            GuiWindow.add(mem_graph, BorderLayout.WEST);
+
 
 
         }
@@ -147,6 +137,13 @@ import javax.swing.text.StyledDocument;
 
 
         //////♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥
+        public void editGraph()
+        {
+            memory.add(toDouble(CacheMemory.memoryRemaining));
+            mem_graph.setMemory(memory);
+
+        }
+
         public void scrollUp(){
             comLine.setCaretPosition(0);
 
@@ -264,7 +261,6 @@ import javax.swing.text.StyledDocument;
                     newtable.editPCBTable();
                     new_mem.editMemTable(os);
 
-
                 }
 
                 else if (commands[0].equalsIgnoreCase("load") && commands.length == 2){
@@ -278,6 +274,7 @@ import javax.swing.text.StyledDocument;
                 else if (commands[0].equalsIgnoreCase("exe") && commands.length == 2) {
                     os.stopTime = Integer.parseInt(commands[1]);
                     os.execute = true;
+
                 }
 
                 else if (commands[0].equalsIgnoreCase("exe") ){

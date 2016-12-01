@@ -3,12 +3,6 @@ import java.util.ArrayList;
 
 import static java.lang.Integer.parseInt;
 
-/**
- * Created by Michael on 11/25/2016.
- */
-
-import java.util.Random;
-
 public class CPU {
     Clock clock;
     int cycle;
@@ -115,10 +109,6 @@ public class CPU {
     }
 
     public void run() {
-        if (scheduler.getNewQueue().getSize() > 0 && cycle == 0) {
-            scheduler.insertPCB();
-            scheduler.getNewQueue().deQueue();
-        }
 
         if(!interrupt.equalsIgnoreCase("False")){
 
@@ -137,6 +127,14 @@ public class CPU {
 
             return;
         }
+
+        if (scheduler.getNewQueue().getSize() > 0 && cycle == 0) {
+            scheduler.insertPCB();
+            scheduler.getNewQueue().deQueue();
+        }
+
+        if (cycle == 1)
+            gui.editGraph();
 
         if(scheduler.getExec().getSize() == 0) {
             return;

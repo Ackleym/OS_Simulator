@@ -1,8 +1,5 @@
 import static java.lang.Integer.parseInt;
 
-/**
- * Created by Michael on 11/25/2016.
- */
 public class Scheduler {
 
     public static ExecutionQueue exec;

@@ -1,25 +1,10 @@
-import javax.swing.*;
-import java.awt.*;
+
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-/**
- * Created by Michael on 11/30/2016.
- */
 
-    /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-
-    /**
-     *
-     * @author Najia13
-     */
 
     public class PCBtable extends JPanel {
 
@@ -115,10 +100,6 @@ import javax.swing.JTable;
 
         }
 
-        public static void main(String[] args)
-        {
-
-        }
 
     }
 

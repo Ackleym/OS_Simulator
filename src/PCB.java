@@ -1,9 +1,6 @@
-import java.lang.reflect.Array;
+
 import java.util.ArrayList;
 
-/**
- * Created by Michael on 11/25/2016.
- */
 public class PCB {
 
     String state;

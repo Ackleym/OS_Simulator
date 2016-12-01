@@ -1,6 +1,3 @@
-/**
- * Created by Michael on 11/25/2016.
- */
 
 import java.util.Random;
 
@@ -13,7 +10,7 @@ public class IOBurst
     }
     public int generateIOBurst()
     {
-        return random.nextInt(26) + 100;
+        return random.nextInt(26) + 25;
     }
 
 }
