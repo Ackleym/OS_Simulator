@@ -222,27 +222,42 @@ import javax.swing.text.StyledDocument;
 
 
                 else if (commands[0].equalsIgnoreCase("proc")){
-                    print_type_two("  -- Execution Queue Contents --", t, Color.WHITE);
+                    print_type_two("\n-----Execution Queue Contents-----", t, Color.WHITE);
                     for (int i = 0; i < os.scheduler.getExec().getSize(); i++) {
                         os.scheduler.getExec().printProc(i);
                         String string = os.scheduler.getExec().proc;
                         print_type_two(string, t, new Color(255, 255, 255));
                         new_mem.editMemTable(os);
                     }
+                    if(os.scheduler.getExec().getSize() < 1) {
+                        print_type_two("          Queue is Empty          \n", t, Color.WHITE);
+                    }
+                    print_type_two("----------------------------------\n", t, Color.WHITE);
 
-                    print_type_two("  --  Wait Queue Contents --", t, Color.WHITE);
+
+                    print_type_two("\n\n-------Wait Queue Contents--------", t, Color.WHITE);
                     for (int i = 0; i < Scheduler.wait.getSize(); i++) {
                         Scheduler.wait.waitProc(i);
                         String string = Scheduler.wait.proc;
                         print_type_two(string, t, new Color(255, 255, 255));
                     }
+                    if(os.scheduler.getWait().getSize() < 1) {
+                        print_type_two("          Queue is Empty          \n", t, Color.WHITE);
+                    }
+                    print_type_two("----------------------------------\n", t, Color.WHITE);
 
-                    print_type_two("  --  New Queue Contents --", t, Color.WHITE);
+
+                    print_type_two("\n\n--------New Queue Contents--------", t, Color.WHITE);
                     for (int i = 0; i < Scheduler.newQueue.getSize(); i++) {
                         Scheduler.newQueue.newProc(i);
                         String string = Scheduler.wait.proc;
                         print_type_two(string, t, new Color(255, 255, 255));
                     }
+                    if(os.scheduler.getNewQueue().getSize() < 1) {
+                        print_type_two("          Queue is Empty          \n", t, Color.WHITE);
+                    }
+                    print_type_two("----------------------------------\n", t, Color.WHITE);
+                    print_type_two("\n\n\n\n\n", t, Color.WHITE);
 
                 }
                 else if(commands[0].equalsIgnoreCase("mem")){
@@ -287,9 +302,15 @@ import javax.swing.text.StyledDocument;
                     System.exit(0);
                 }
 
+                else if (commands[0].equalsIgnoreCase("help")) {
+                    String text = "\n---HELP---\nProc\nMem\nLoad\nExe\nReset\nExit\n----------\n\n\n";
+
+                    print_type_two(text, t, new Color(255,255,255));
+                }
 
                 else {
-                    print_type_two(s, t, new Color(255,255,255));
+                    print_type_two("No Command Matching: " + s + "\nType help for list of commands",
+                                    t, new Color(255,255,255));
 
                 }
 

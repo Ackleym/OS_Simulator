@@ -186,7 +186,8 @@ public class CPU {
         if(command.equalsIgnoreCase("Out")){
             cpuPCB.setPointer(cpuPCB.getPointer() + 1);
             String output = scheduler.getExec().printProc(0);
-            gui.print_type_two(output, true, Color.WHITE);
+            gui.print_type_two("\n--------Process Called Information--------\n" + output +
+                                "------------------------------------------", true, Color.WHITE);
             System.out.println("Out");
         }
 
