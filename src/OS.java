@@ -53,13 +53,12 @@ public class OS{
             clock.execute();
 
             Random random = new Random();
-//            if (random.nextInt(500) == 499) {
-//                ECB ecb = new ECB();
-//                scheduler.insertECB(ecb, "System",
-//                                    "Random Process",
-//                                    random.nextInt(10) + 1,
-//                                    random.nextInt(26) + 25);
-//            }
+            if (random.nextInt(500) == 499) {
+                ECB ecb = new ECB();
+                scheduler.insertECB(ecb, "System",
+                                    "Random Process",
+                                    random.nextInt(10) + 1);
+            }
 
             cpu.detectInterrupt();
 
@@ -72,6 +71,13 @@ public class OS{
                 Thread.sleep(100);
             } catch (InterruptedException e) {
             }
+
+//            try {
+//                Thread.sleep(500);
+//            } catch (InterruptedException ie)
+//            {
+//            }
+
 
             if (clock.getClock() == stopTime || scheduler.getExec().getSize() == 0) {
                 break;

@@ -1,6 +1,7 @@
 131
 109
 Calculate 73
-Yield
+IO Keyboard 3
 Calculate 34
-Out
+Out 'Hello World'
+Stop

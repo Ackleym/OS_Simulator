@@ -80,12 +80,19 @@ public class Scheduler {
         exec.cycle();
     }
 
-    public void insertECB(ECB ecb, String name, String handler, int priority, int ioBurst) {
+    public void insertECB(ECB ecb, String name, String handler, int priority) {
         ecb.setName(name);
         ecb.setHandler(handler);
         ecb.setPriority(priority);
-        ecb.setIoBurst(ioBurst);
         event.enQueue(ecb);
+    }
+
+    public void removeECB() {
+        if(event.getSize() < 1) {
+            return;
+        }
+
+        event.deQueue();
     }
 
     public int getWait(PCB pcb)

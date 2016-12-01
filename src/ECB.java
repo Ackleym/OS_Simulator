@@ -12,6 +12,7 @@ public class ECB {
     String handler;
     int priority;
     int ioBurst;
+    int counter;
     Random random;
 
     public ECB() {
@@ -19,6 +20,7 @@ public class ECB {
         this.name = "Name";
         this.handler = "Handler";
         this.priority = 0;
+        counter = 0;
         this.ioBurst = random.nextInt(26) + 25;
     }
 
@@ -26,6 +28,7 @@ public class ECB {
         this.name = "Name";
         this.handler = "Handler";
         this.priority = 0;
+        counter = 0;
         this.ioBurst = ioBurst;
     }
 
@@ -64,5 +67,13 @@ public class ECB {
 
     public int getPriority() {
         return priority;
+    }
+
+    public void setCounter(int counter) {
+        this.counter = counter;
+    }
+
+    public int getCounter() {
+        return counter;
     }
 }

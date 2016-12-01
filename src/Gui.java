@@ -126,7 +126,7 @@ import javax.swing.text.StyledDocument;
 
 
 
-            GuiWindow.setSize(1500, 1000);
+            GuiWindow.setSize(1500, 600);
             GuiWindow.setLocationRelativeTo(null);
             GuiWindow.setResizable(false);
             GuiWindow.setVisible(true);
