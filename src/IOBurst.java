@@ -13,7 +13,7 @@ public class IOBurst
     }
     public int generateIOBurst()
     {
-        return random.nextInt(26) + 100;
+        return random.nextInt(26) + 25;
     }
 
 }

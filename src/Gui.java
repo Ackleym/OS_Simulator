@@ -212,6 +212,7 @@ import javax.swing.text.StyledDocument;
                     os.cpu.interrupt = "False";
                     os.cpu.cycle = 0;
                     os.clock.reset();
+                    CacheMemory.memoryRemaining = CacheMemory.totalMemory;
 
                     newtable.editPCBTable();
                     new_mem.editMemTable(os);
@@ -245,7 +246,7 @@ import javax.swing.text.StyledDocument;
 
                 }
                 else if(commands[0].equalsIgnoreCase("mem")){
-                    String mem = "Show current usage of memory space";
+                    String mem = os.comm.mem();
                     print_type_two(mem, t, new Color(255,255,255));
 
                 }

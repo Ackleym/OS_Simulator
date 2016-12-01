@@ -44,7 +44,7 @@ public class OS{
             clock.execute();
 
             Random random = new Random();
-            if (random.nextInt(100) == 1) {
+            if (random.nextInt(250) == 1) {
                 cpu.getInterruptProcessor().addEvent("Random Process", "System", random.nextInt(10));
             }
 
