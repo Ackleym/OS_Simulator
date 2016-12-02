@@ -34,8 +34,8 @@ public class Gui extends JPanel {
         public JScrollPane scroll;
         public StyledDocument styledoc;
 
-        public String jobs[] = {"MediaPlayer", "PhotoEditing", "Test", "VideoGame", "VirusScan", "WebBrowser",
-        "WordProcessor"};
+        public String jobs[] = {"MediaPlayer", "PhotoEditing", "Messaging", "VideoGame", "VirusScan", "WebBrowser",
+        "WordProcessor", "Calculator", "JavaIDE"};
         public PCBtable newtable;
         MemDisplay new_mem;
         int stopTime;
@@ -131,13 +131,8 @@ public class Gui extends JPanel {
             mem_graph.setPreferredSize(new Dimension(400, 600));
             GuiWindow.add(mem_graph, BorderLayout.WEST);
 
-
-
         }
 
-
-
-        //////♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥
         public void editGraph()
         {
             memory.add(toDouble(CacheMemory.memoryRemaining));
@@ -148,15 +143,11 @@ public class Gui extends JPanel {
         public void scrollUp(){
             comLine.setCaretPosition(0);
 
-
         }
         public void scrollDown(){
             comLine.setCaretPosition(comLine.getDocument().getLength());
 
-
-
         }
-
 
         public void print(String s, boolean trace, Color col){
             Style addStyle = comLine.addStyle("Style", null);
@@ -169,33 +160,20 @@ public class Gui extends JPanel {
 
                 s = c_var  + s;
 
-
-
             }
-
-
             try{
                 styledoc.insertString(styledoc.getLength(), s, addStyle);
 
             }
             catch(Exception ex){}
 
-
-
-
         }
-
-
 
         public void print_type_two(String s, boolean trace, Color color){
             print(s + "\n", trace, color);
 
 
         }
-
-
-
-
 
         public void performInput(String s){
             final String[] commands = s.split(" ");
@@ -281,7 +259,7 @@ public class Gui extends JPanel {
                 else if (commands[0].equalsIgnoreCase("load") && commands.length == 1){
 
                     Random random = new Random();
-                    int rand = random.nextInt(6);
+                    int rand = random.nextInt(9);
 
                     String job = jobs[rand];
 
