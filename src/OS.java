@@ -67,7 +67,6 @@ public class OS{
 
         }
         execute = false;
-        gui.memory.add(256.0);
         gui.editGraph();
         System.out.println("\n\nOS is Finished\nClock: " + clock.getClock());
     }

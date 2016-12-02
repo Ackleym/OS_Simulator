@@ -204,6 +204,8 @@ public class Gui extends JPanel {
                 if(commands[0].equalsIgnoreCase("reset"))
                 {
 
+                    memory.clear();
+                    editGraph();
                     os.scheduler.reset();
                     os.cpu.getInterruptProcessor().getIoScheduler().reset();
 
@@ -215,7 +217,7 @@ public class Gui extends JPanel {
                     newtable.editPCBTable();
                     new_mem.editMemTable(os);
 
-//                    styledoc.remove(0,styledoc.getLength());
+                    styledoc.remove(0,styledoc.getLength());
                 }
 
 
